@@ -30,8 +30,6 @@ class App extends Component {
     return (
       <div className="App">
         <PrimarySearchAppBar />
-        <Login />
-        <Dashboard />
         {/* Render the passwords if we have them */}
         {passwords.length ? (
           <div>
