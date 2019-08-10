@@ -5,14 +5,28 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd client && npm && npm run build",
+    "heroku-postbuild": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "8.12.0",
+    "npm": "6.4.1"
   },
   "keywords": [],
   "author": "Jay Depala",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
     "express": "^4.17.1",
+    "http-proxy-middleware": "^0.19.1",
+    "mongoose": "^5.4.19",
+    "morgan": "^1.9.1",
     "password-generator": "^2.2.0"
+  },
+  "devDependencies": {
+	  "nodemon": "^1.18.10"
   }
 }
