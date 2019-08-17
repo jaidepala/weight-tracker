@@ -29,3 +29,10 @@ h1 {
 .more:active {
   background-color: #FFEFA9;
 }
+
+/* 
+    Login
+*/
+    .login-form-component {
+        width: 90%;
+    }
