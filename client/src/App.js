@@ -11,6 +11,7 @@ import './App.css';
     import Header from './modules/shared/components/header';
     import Login from './modules/login/login';
     import Dashboard from './modules/dashboard/dashboard';
+    import CreateProfile from './modules/create-profile/create-profile';
 
 class App extends Component {
 
@@ -38,11 +39,19 @@ class App extends Component {
                             to="/login">
                             Login
                         </Link>
+                        
+                        <Link
+                            component="button"
+                            variant="body2"
+                            to="/create-profile">
+                            Create Profile
+                        </Link>
                     </div>
                     
                     <Route exact path="/" component={Dashboard} />
                     <Route path="/dashboard" component={Dashboard} />
                     <Route path="/login" component={Login} />
+                    <Route path="/create-profile" component={CreateProfile} />
                 </Router>
             </div>
         );
