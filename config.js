@@ -1,6 +1,4 @@
 // config.js
-const dotenv = require('dotenv');
-
 /* 
     !   Reference:
     *   
@@ -11,6 +9,8 @@ const dotenv = require('dotenv');
 */
 
 if (process.env.NODE_ENV !== 'production') {
+    
+    const dotenv = require('dotenv');
     
     const result = dotenv.config();
     if (result.error) {
