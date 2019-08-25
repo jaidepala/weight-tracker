@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // import { withRouter } from 'react-router-dom';
 
@@ -22,14 +23,22 @@ class App extends Component {
                     <div id="header">
                         <Route component={Header} />
                     </div>
-                    <ul>
-                        <li>
-                            <Link to="/dashboard">Dashboard</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                    </ul>
+                    <div className="link-container">
+                        <Link
+                            component="button"
+                            variant="body2"
+                            to="/dashboard">
+                            
+                            Dashboard
+                        </Link>
+                        
+                        <Link
+                            component="button"
+                            variant="body2"
+                            to="/login">
+                            Login
+                        </Link>
+                    </div>
                     
                     <Route exact path="/" component={Dashboard} />
                     <Route path="/dashboard" component={Dashboard} />

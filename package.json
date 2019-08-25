@@ -1,32 +1,41 @@
 {
-  "name": "react-sample-2019",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "engines": {
-    "node": "8.12.0",
-    "npm": "6.4.1"
-  },
-  "keywords": [],
-  "author": "Jay Depala",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "concurrently": "^4.1.0",
-    "cors": "^2.8.5",
-    "dotenv": "^7.0.0",
-    "express": "^4.17.1",
-    "http-proxy-middleware": "^0.19.1",
-    "mongoose": "^5.4.19",
-    "morgan": "^1.9.1",
-    "password-generator": "^2.2.0"
-  },
-  "devDependencies": {
-	  "nodemon": "^1.18.10"
-  }
+	"name": "react-sample-2019",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+        "start-env": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
+        "start:prod": "node .",
+        "start:dev": "nodenv -f .",
+		"preload": "node -r dotenv/config index.js",
+		"start-server": "nodemon index.js",
+		"start-client": "cd client && npm start",
+		"start-both": "concurrently --kill-others \"npm run preload\" \"npm run start-server\" \"npm run start-client\" ",
+		"heroku-postbuild": "cd client && npm install && npm run build",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"engines": {
+		"node": "8.12.0",
+		"npm": "6.4.1"
+	},
+	"keywords": [],
+	"author": "Jay Depala",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"http-proxy-middleware": "^0.19.1",
+		"if-env": "^1.0.4",
+		"mongoose": "^5.6.10",
+		"morgan": "^1.9.1",
+		"password-generator": "^2.2.0"
+	},
+	"devDependencies": {
+		"concurrently": "^4.1.2",
+		"dotenv": "^7.0.0",
+		"node-env-run": "^3.0.2",
+		"nodemon": "^1.18.10"
+	}
 }
