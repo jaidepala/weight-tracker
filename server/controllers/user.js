@@ -25,4 +25,19 @@ router.get('/get-details', function (req, res) {
     });
 });
 
+router.post('/add-details', function(req, res) {
+
+    let sample = new Sample();
+
+    sample.password = req.body.password;
+    sample.usename = req.body.username;
+
+    sample.save(function(err, result) {
+        
+        if(err) return res.send(err);
+
+        return res.json(result);
+    });
+});
+
 module.exports = router;

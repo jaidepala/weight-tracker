@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require("body-parser");
 const generatePassword = require('password-generator');
 const mongoose = require("mongoose");
 
@@ -21,6 +22,12 @@ db.once("open", () => console.log("connected to the database"));
 
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+// (optional) only made for logging and
+// bodyParser, parses the request body to be a readable json format
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+// app.use(logger("dev"));
 
 // Controllers
 const wiki = require('./server/controllers/user');

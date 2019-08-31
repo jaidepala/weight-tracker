@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 // Material Components
     import Paper from '@material-ui/core/Paper';
@@ -64,6 +64,8 @@ class CreateProfile extends Component {
 
         this.changeDateOfBirth = this.changeDateOfBirth.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.getDetails = this.getDetails.bind(this);
+        this.saveDetails = this.saveDetails.bind(this);
     };
 
     changeDateOfBirth( date ) {
@@ -78,6 +80,39 @@ class CreateProfile extends Component {
         this.setState({ 
             ...this.state, 
             [theProp]: event.target.value 
+        });
+    };
+
+    saveDetails() {
+
+        axios.post("api/wiki/add-details", {
+            username: 'avfv' + Math.floor(Math.random() * 10000),
+            password: 'fewfwe' + Math.floor( Math.random() * 10000 )
+        })
+        .then(res => {
+
+            if (res && res != null) {
+                this.getDetails();
+            }
+        })
+        .catch(err => {
+
+            console.log('err', err);
+        });
+    };
+
+    getDetails() {
+
+        axios.get("api/wiki/get-details")
+        .then(res => {
+
+            if (res && res != null) {
+                console.log('res', res)
+            }
+        })
+        .catch(err => {
+
+            console.log('err', err);
         });
     };
 
@@ -102,7 +137,7 @@ class CreateProfile extends Component {
                                         fullWidth
                                         id="userDateOfBirth"
                                         label="Select Date of Birth"
-                                        format="DD/MM/YYYY"
+                                        format="dd/mm/yyyy"
                                         value={this.state.userDateOfBirth}
                                         onChange={this.changeDateOfBirth}
                                         KeyboardButtonProps={{
@@ -211,6 +246,15 @@ class CreateProfile extends Component {
                                     <Button>Female</Button>
                                     <Button>None</Button>
                                 </ButtonGroup>
+                            </Grid>
+                        </Grid>
+                    </ListItem>
+                    <ListItem>
+                        <Grid container alignItems="center" justify="space-around">
+                            <Grid item xs={12}>
+                                <Button variant="contained" size="large" color="primary" onClick={() => this.saveDetails()}>
+                                    Save
+                                </Button>
                             </Grid>
                         </Grid>
                     </ListItem>
