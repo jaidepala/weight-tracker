@@ -12,7 +12,12 @@ const app = express();
 const dbRoute = endpoint;
 
 // connects our back end code with the database
+//  ! REF
+//  *   
+//  *   Reason for using useCreateIndex
+//  *   https://github.com/Automattic/mongoose/issues/6890
 mongoose.connect(dbRoute, {
+    useCreateIndex: true,
     useNewUrlParser: true
 });
 
@@ -31,6 +36,7 @@ app.use(bodyParser.json());
 
 // Controllers
 const wiki = require('./server/controllers/user');
+const login = require('./server/controllers/login.controller');
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -51,6 +57,7 @@ app.get('/api/passwords', (req, res) => {
 });
 
 app.use('/api/wiki', wiki);
+app.use('/api/login', login);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

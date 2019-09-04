@@ -30,7 +30,7 @@ router.post('/add-details', function(req, res) {
     let sample = new Sample();
 
     sample.password = req.body.password;
-    sample.usename = req.body.username;
+    sample.username = req.body.username;
 
     sample.save(function(err, result) {
         

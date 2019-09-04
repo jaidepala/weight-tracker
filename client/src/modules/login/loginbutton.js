@@ -1,4 +1,8 @@
 import React from 'react';
+import { Route } from "react-router-dom";    
+
+import CreateProfile from '../create-profile/create-profile';
+import axios from "axios";
 
 /* 
     !   Dialog
@@ -19,7 +23,7 @@ export default function LoginButton( props ) {
 
     const ReturnErrorMessage = () => {
         let { username, password } = props;
-
+        
         if( !username || !password )
         {
             let msg = '';
@@ -36,13 +40,66 @@ export default function LoginButton( props ) {
         else
         {
             return (<span>
-                Valid Form!
+                Something went wrong! <br />
+                Try again.
             </span>);
         }
     };
 
+    function getDetails() {
+        
+        let { username, password } = props;
+
+        if(!username || !password)
+        {
+            setOpen(true);
+            return false;
+        }
+
+        axios.post("api/login/get", {
+            username: username,
+            password: password
+        })
+        .then(res => {
+            
+            if (res && res.data && res.data.success && res.data.data) {
+                
+                // console.log('redirecting', props);
+
+                props.props.history.push('/create-profile');
+            };
+
+            setOpen(true);
+        })
+        .catch(err => {
+
+            console.log('err', err);
+            
+            setOpen(true);
+        });
+    };
+
     function handleClickOpen() {
-        setOpen(true);
+        // setOpen(true);
+
+        getDetails();
+
+        // let { username, password } = props;
+
+        // axios.post("api/login/save", {
+        //     username: username,
+        //     password: password
+        // })
+        // .then(res => {
+
+        //     if (res && res != null) {
+        //         getDetails();
+        //     }
+        // })
+        // .catch(err => {
+
+        //     console.log('err', err);
+        // });
     };
 
     function handleClose() {
