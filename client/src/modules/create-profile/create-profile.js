@@ -136,8 +136,9 @@ class CreateProfile extends Component {
                                     <KeyboardDatePicker
                                         fullWidth
                                         id="userDateOfBirth"
+                                        margin="normal"
                                         label="Select Date of Birth"
-                                        format="dd/mm/yyyy"
+                                        format="MM/dd/yyyy"
                                         value={this.state.userDateOfBirth}
                                         onChange={this.changeDateOfBirth}
                                         KeyboardButtonProps={{
@@ -244,7 +245,7 @@ class CreateProfile extends Component {
                                 <ButtonGroup fullWidth size="large" aria-label="small outlined button group">
                                     <Button>Male</Button>
                                     <Button>Female</Button>
-                                    <Button>None</Button>
+                                    <Button>Not Applicable</Button>
                                 </ButtonGroup>
                             </Grid>
                         </Grid>

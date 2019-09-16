@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 
 // Services
     import LoginButton from './loginbutton';
+    import SpinnerLoader from '../shared/components/spinner.loader';
 
 class Login extends Component {
 
@@ -88,6 +89,7 @@ class Login extends Component {
                         username={ this.state.userName } 
                         password={ this.state.password } 
                     />
+                    <SpinnerLoader />
                 </form>
             </div>
         );
