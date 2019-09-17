@@ -12,8 +12,9 @@ import { loadingWheel } from "./keyframes";
     http://jsfiddle.net/8k2NV/2/
 */
 
-export default function SpinnerLoader() {
+export default function SpinnerLoader( props ) {
     const [open, setOpen] = React.useState(false);
+    const { startLoading } = props;
 
     function handleClickOpen() {
         setOpen(true);
@@ -25,11 +26,8 @@ export default function SpinnerLoader() {
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                Slide in alert dialog
-            </Button>
             <Dialog
-                open={open}
+                open={startLoading}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">

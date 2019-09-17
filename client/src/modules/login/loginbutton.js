@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from "react-router-dom";    
 
 import CreateProfile from '../create-profile/create-profile';
+import SpinnerLoader from '../shared/components/spinner.loader';
 import axios from "axios";
 
 /* 
@@ -18,6 +19,8 @@ import axios from "axios";
 
 export default function LoginButton( props ) {
     const [open, setOpen] = React.useState(false);
+    const [startLoading, setStartLoading] = React.useState(false);
+    // let [startLoading] = React.useStat/e(false);
 
     // console.log('props', props);
 
@@ -54,13 +57,17 @@ export default function LoginButton( props ) {
         {
             setOpen(true);
             return false;
-        }
+        };
 
+        setStartLoading(true);
+        
         axios.post("api/login/get", {
             username: username,
             password: password
         })
         .then(res => {
+
+            setStartLoading(false);
             
             if (res && res.data && res.data.success && res.data.data) {
                 
@@ -72,6 +79,8 @@ export default function LoginButton( props ) {
             setOpen(true);
         })
         .catch(err => {
+
+            setStartLoading(false);
 
             console.log('err', err);
             
@@ -137,6 +146,9 @@ export default function LoginButton( props ) {
                         </Button>
                     </DialogActions>
             </Dialog>
+            <SpinnerLoader
+                startLoading={startLoading}
+            />
         </div>
     );
 }
