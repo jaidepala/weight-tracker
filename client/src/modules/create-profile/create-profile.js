@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import classNames from "classnames";
 
 // Material Components
     import Paper from '@material-ui/core/Paper';
@@ -11,6 +12,7 @@ import axios from "axios";
     import Divider from '@material-ui/core/Divider';
     import Grid from '@material-ui/core/Grid';
     import DateFnsUtils from '@date-io/date-fns';
+    import MomentUtils from '@date-io/moment';
     // import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
     import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
     import IconButton from '@material-ui/core/IconButton';
@@ -36,7 +38,8 @@ class CreateProfile extends Component {
 
         this.state = {
 
-            userDateOfBirth: new Date('2014-08-18T21:11:54'),
+            // userDateOfBirth: new Date('18/8/2014'),
+            userDateOfBirth: new Date(),
             userHeight: "",
             userWeight: "",
             userGender: "",
@@ -66,6 +69,7 @@ class CreateProfile extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.getDetails = this.getDetails.bind(this);
         this.saveDetails = this.saveDetails.bind(this);
+        this.setGender = this.setGender.bind(this);
     };
 
     changeDateOfBirth( date ) {
@@ -73,6 +77,19 @@ class CreateProfile extends Component {
         console.log('date', date);
         
         // setSelectedDate(date);
+    };
+
+    startOfMonth(date) { 
+    
+        return this.getStartOfMonth(date); 
+    };
+
+    setGender(genderType) {
+
+        this.setState({
+            ...this.state,
+            userGender: genderType
+        });
     };
 
     handleChange(theProp, event) {
@@ -118,6 +135,8 @@ class CreateProfile extends Component {
 
     render() {
 
+        let userGender = this.state.userGender && this.state.userGender.toLowerCase();
+
         return (
             <Paper className="profile-container">
                 <List component="nav" aria-label="profile details">
@@ -132,19 +151,21 @@ class CreateProfile extends Component {
                             <Grid item xs={10}>
 
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <Grid container justify="space-around">
 
-                                    <KeyboardDatePicker
-                                        fullWidth
-                                        id="userDateOfBirth"
-                                        margin="normal"
-                                        label="Select Date of Birth"
-                                        format="MM/dd/yyyy"
-                                        value={this.state.userDateOfBirth}
-                                        onChange={this.changeDateOfBirth}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                    />
+                                        <KeyboardDatePicker
+                                            fullWidth
+                                            id="userDateOfBirth"
+                                            margin="normal"
+                                            label="Select Date of Birth"
+                                            format="MM/DD/YYYY"
+                                            value={this.state.userDateOfBirth}
+                                            onChange={this.changeDateOfBirth}
+                                            KeyboardButtonProps={{
+                                                'aria-label': 'change date',
+                                            }}
+                                        />
+                                    </Grid>
                                 </MuiPickersUtilsProvider>
                             </Grid>
                         </Grid>
@@ -243,9 +264,15 @@ class CreateProfile extends Component {
                             <Grid item xs={10}>
 
                                 <ButtonGroup fullWidth size="large" aria-label="small outlined button group">
-                                    <Button>Male</Button>
-                                    <Button>Female</Button>
-                                    <Button>Not Applicable</Button>
+                                    <Button className={userGender == 'male' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Male')}>
+                                        Male
+                                    </Button>
+                                    <Button className={userGender == 'female' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Female')}>
+                                        Female
+                                    </Button>
+                                    <Button className={userGender == 'not applicable' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Not Applicable')}>
+                                        Not Applicable
+                                    </Button>
                                 </ButtonGroup>
                             </Grid>
                         </Grid>
