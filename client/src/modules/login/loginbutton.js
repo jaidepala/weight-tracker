@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from "react-router-dom";    
 
 import CreateProfile from '../create-profile/create-profile';
+import { Utils } from '../../services/util';
 import SpinnerLoader from '../shared/components/spinner.loader';
 import axios from "axios";
 
@@ -69,9 +70,11 @@ export default function LoginButton( props ) {
 
             setStartLoading(false);
             
-            if (res && res.data && res.data.success && res.data.data) {
+            if (res && res.data && res.data.success) {
                 
                 // console.log('redirecting', props);
+
+                Utils.setLoggedInUser( res.data );
 
                 props.props.history.push('/create-profile');
             };

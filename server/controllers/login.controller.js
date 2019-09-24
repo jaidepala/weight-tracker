@@ -70,7 +70,8 @@ router.post('/get', function( req, res) {
 
         return res.json({
             success: true,
-            data: data
+            username: data.username,
+            id: data._id
         });
     });
 });

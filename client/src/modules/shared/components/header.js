@@ -119,7 +119,7 @@ const useStyles = makeStyles(theme => ({
         },
 }));
 
-export default function Header() {
+export default function Header( props ) {
     const classes = useStyles();
 	const [state, setState] = React.useState({
 	  top: false,
@@ -128,6 +128,7 @@ export default function Header() {
 	  right: false,
 	});
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [isloggedin, setIsloggedin] = React.useState(localStorage.getItem('user'));
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   
     const isMenuOpen = Boolean(anchorEl);
@@ -139,8 +140,8 @@ export default function Header() {
 			url: 'dashboard',
 			icon: <HomeIcon />
 		}
-	];
-
+    ];
+    
 	const sideList = side => (
 	  	<div
 			className={classes.list}
@@ -345,17 +346,22 @@ export default function Header() {
 							<AccountCircle />
 						</IconButton>
 					</div>
-					<div className={classes.sectionMobile}>
-						<IconButton
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit">
-							
-							<MoreIcon />
-						</IconButton>
-					</div>
+                    {
+                        isloggedin ? 
+                        (
+                            <div className={classes.sectionMobile}>
+                                <IconButton
+                                    aria-label="show more"
+                                    aria-controls={mobileMenuId}
+                                    aria-haspopup="true"
+                                    onClick={handleMobileMenuOpen}
+                                    color="inherit">
+                                    
+                                    <MoreIcon />
+                                </IconButton>
+                            </div>
+                        ) : ''
+                    }
 				</Toolbar>
 			</AppBar>
 			{renderMobileMenu}
