@@ -41,8 +41,7 @@ class App extends Component {
                             Dashboard
                         </Link>
                         {
-                            isLoggedIn ? 
-                            ('') : (<Link
+                            !isLoggedIn && (<Link
                                 component="button"
                                 variant="body2"
                                 to="/login">

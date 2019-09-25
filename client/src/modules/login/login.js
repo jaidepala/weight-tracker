@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext, useEffect } from "react";
 // import axios from "axios";
 // import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
@@ -25,6 +25,14 @@ class Login extends Component {
         this.loginClick             = this.loginClick.bind(this);
         this.updateUserName         = this.updateUserName.bind(this);
         this.updatePassword         = this.updatePassword.bind(this);
+    };
+
+    componentDidMount() {
+        
+    };
+
+    componentWillUnmount() {
+        
     };
 
     loginClick() {
@@ -83,7 +91,7 @@ class Login extends Component {
                         />
                     </FormControl>
                     <LoginButton
-
+    
                         props={ this.props }
                         username={ this.state.userName } 
                         password={ this.state.password } 

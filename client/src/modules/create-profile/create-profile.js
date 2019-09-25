@@ -147,7 +147,6 @@ class CreateProfile extends Component {
 
                                 <ListItemText primary="Date of Birth" />
                             </Grid>
-
                             <Grid item xs={10}>
 
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

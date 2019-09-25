@@ -128,7 +128,7 @@ export default function Header( props ) {
 	  right: false,
 	});
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [isloggedin, setIsloggedin] = React.useState(localStorage.getItem('user'));
+    const [isloggedin, setIsloggedin] = React.useState(props.isloggedin);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   
     const isMenuOpen = Boolean(anchorEl);
@@ -207,6 +207,7 @@ export default function Header( props ) {
     };
   
     function handleMobileMenuOpen(event) {
+        
       	setMobileMoreAnchorEl(event.currentTarget);
     };
   
@@ -347,7 +348,7 @@ export default function Header( props ) {
 						</IconButton>
 					</div>
                     {
-                        isloggedin ? 
+                        isloggedin && 
                         (
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -360,7 +361,7 @@ export default function Header( props ) {
                                     <MoreIcon />
                                 </IconButton>
                             </div>
-                        ) : ''
+                        )
                     }
 				</Toolbar>
 			</AppBar>
