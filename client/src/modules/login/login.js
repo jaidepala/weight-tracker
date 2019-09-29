@@ -83,6 +83,8 @@ class Login extends Component {
                         />
                     </FormControl>
                     <LoginButton
+
+                        props={ this.props }
                         username={ this.state.userName } 
                         password={ this.state.password } 
                     />
