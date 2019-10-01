@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Sample = require("../schemas/sample");
+const uuid = require('uuid/v4');
 
 // Home page route.
 router.get('/', function (req, res) {
-    res.send('Wiki home page');
+    const uniqueId = req.sessionID;
+    res.send('Wiki home page <b>' + uniqueId + '</b><br><br>Authenticated: ' + req.isAuthenticated() );
 });
 
 // About page route.

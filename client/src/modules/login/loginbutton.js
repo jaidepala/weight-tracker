@@ -62,7 +62,7 @@ export default function LoginButton( props ) {
 
         setStartLoading(true);
         
-        axios.post("api/login/get", {
+        axios.post("api/login", {
             username: username,
             password: password
         })
