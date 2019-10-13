@@ -1,22 +1,50 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 const generatePassword = require('password-generator');
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-// const port = process.env.PORT || 5000;
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
+const client = redis.createClient();
+
 const { endpoint, masterKey, port } = require('./config');
-
 const app = express();
+const router = express.Router();
 
-const dbRoute = endpoint;
+client.on('error', function (err) {
+    console.log('Redis error: \n' + err);
+});
 
-// connects our back end code with the database
-//  ! REF
-//  *   
-//  *   Reason for using useCreateIndex
-//  *   https://github.com/Automattic/mongoose/issues/6890
-mongoose.connect(dbRoute, {
+client.on("ready", function () {
+    console.log("Redis is ready");
+});
+
+/*
+    !   REF
+    *
+    *   (optional) only made for logging and
+    *    bodyParser, parses the request body to be a readable json format
+    *    app.use(logger("dev"));
+*/
+app.use(session({ 
+    secret: 'ssshhhhh',
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
+    saveUninitialized: false,
+    resave: false
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+/* 
+    !   REF
+    *   
+    *   connects our back end code with the database
+    *   Reason for using useCreateIndex
+    *   https://github.com/Automattic/mongoose/issues/6890
+*/
+mongoose.connect(endpoint, {
     useCreateIndex: true,
     useNewUrlParser: true
 });
@@ -28,12 +56,6 @@ db.once("open", () => console.log("connected to the database"));
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// (optional) only made for logging and
-// bodyParser, parses the request body to be a readable json format
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-// app.use(logger("dev"));
-
 // Controllers
 const wiki = require('./server/controllers/user');
 const login = require('./server/controllers/login.controller');
@@ -41,8 +63,7 @@ const login = require('./server/controllers/login.controller');
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Put all API endpoints under '/api'
-app.get('/api/passwords', (req, res) => {
+router.get('/passwords', (req, res) => {
     const count = 5;
 
     // Generate some passwords
@@ -56,7 +77,7 @@ app.get('/api/passwords', (req, res) => {
     console.log(`Sent ${count} passwords`);
 });
 
-app.use('/api/wiki', wiki);
+app.use('/api/user', wiki);
 app.use('/api/login', login);
 
 // The "catchall" handler: for any request that doesn't

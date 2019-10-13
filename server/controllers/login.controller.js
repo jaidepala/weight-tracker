@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const LoginSchema = require("../schemas/login.schema");
 
+var sess;
+
 //hashing a password before saving it to the database
 // LoginSchema.pre('save', function (next) {
     
@@ -17,20 +19,32 @@ const LoginSchema = require("../schemas/login.schema");
 // });
 
 router.post('/', function (req, res, next) {
+    
+    // let sess = req.session;
 
     let loginClass = new LoginSchema();
 
     loginClass.password = req.body.password;
     loginClass.username = req.body.username;
 
-    loginClass.find({
+    LoginSchema.findOne({
         username: loginClass.username,
         password: loginClass.password
     }, function (err, result) {
 
         if (err) return res.send(err);
 
-        return res.json(result);
+        req.session.username = result.username;
+        req.session.userid = result._id;
+
+        return res.json({
+            success: true,
+            data: {
+                username: result.username,
+                id: result.id,
+                add: req.session
+            }
+        });
     });
 });
 
@@ -49,7 +63,7 @@ router.post('/save', function (req, res, next) {
     });
 });
 
-router.post('/get', function( req, res) {
+router.post('/get', function( req, res ) {
 
     let loginClass = new LoginSchema();
 
@@ -66,7 +80,11 @@ router.post('/get', function( req, res) {
                 success: false,
                 error: err
             });
-        }
+        };
+            
+        sess = req.session;
+
+        sess.username = loginClass.username;
 
         return res.json({
             success: true,
@@ -74,6 +92,16 @@ router.post('/get', function( req, res) {
             id: data._id
         });
     });
+});
+
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return console.log(err);
+        }
+        res.redirect('/');
+    });
+
 });
 
 module.exports = router;

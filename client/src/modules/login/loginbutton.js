@@ -62,7 +62,7 @@ export default function LoginButton( props ) {
 
         setStartLoading(true);
         
-        axios.post("api/login/get", {
+        axios.post("api/login/", {
             username: username,
             password: password
         })
@@ -74,7 +74,7 @@ export default function LoginButton( props ) {
                 
                 // console.log('redirecting', props);
 
-                Utils.setLoggedInUser( res.data );
+                Utils.setLoggedInUser( res.data.data );
 
                 props.props.history.push('/create-profile');
             };

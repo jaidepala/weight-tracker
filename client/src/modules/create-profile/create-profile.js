@@ -39,9 +39,12 @@ class CreateProfile extends Component {
         this.state = {
 
             // userDateOfBirth: new Date('18/8/2014'),
+            _isMounted: false,
             userDateOfBirth: new Date(),
             userHeight: "",
             userWeight: "",
+            userHeightType: "",
+            userWeightType: "",
             userGender: "",
             weightLabels: [
                 {
@@ -69,7 +72,24 @@ class CreateProfile extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.getDetails = this.getDetails.bind(this);
         this.saveDetails = this.saveDetails.bind(this);
+        this.callApi = this.callApi.bind(this);
         this.setGender = this.setGender.bind(this);
+    };
+
+    componentDidMount() {
+
+        this.setState({
+            _isMounted: true
+        });
+        
+        this.getDetails();
+    };
+
+    componentWillUnmount() {
+
+        this.setState({
+            _isMounted: false
+        });
     };
 
     changeDateOfBirth( date ) {
@@ -101,10 +121,15 @@ class CreateProfile extends Component {
     };
 
     saveDetails() {
-
-        axios.post("api/wiki/add-details", {
-            username: 'avfv' + Math.floor(Math.random() * 10000),
-            password: 'fewfwe' + Math.floor( Math.random() * 10000 )
+        
+        axios.post("api/user/add-details", {
+            dateofbirth: this.state.userDateOfBirth,
+            height: this.state.userHeight,
+            weight: this.state.userWeight,
+            heightType: this.state.userHeightType,
+            weightType: this.state.userWeightType,
+            gender: this.state.userGender,
+            userId: localStorage.getItem('user')
         })
         .then(res => {
 
@@ -118,14 +143,50 @@ class CreateProfile extends Component {
         });
     };
 
+    callApi( theApi ) {
+
+        axios.get(theApi)
+            .then(res => {
+
+                console.log('res', res);
+            })
+            .catch(err => {
+
+                console.log('err', err);
+            });
+    };
+
     getDetails() {
 
-        axios.get("api/wiki/get-details")
+        axios.get("api/user/get-details")
         .then(res => {
 
-            if (res && res != null) {
-                console.log('res', res)
-            }
+            console.log('res', res);
+
+            if (res && res.data && res.data.success) {
+
+                let updateObj = {
+
+                    userDateOfBirth: res.data.data.dateofbirth,
+                    userHeight: res.data.data.height,
+                    userWeight: res.data.data.weight,
+                    userHeightType: res.data.data.heightType,
+                    userWeightType: res.data.data.weightType,
+                    userGender: res.data.data.gender
+                };
+
+                for(var tKey in updateObj)
+                {
+                    if(updateObj.hasOwnProperty(tKey))
+                    {
+                        this.handleChange(tKey, {
+                            target: {
+                                value: updateObj[tKey]
+                            }
+                        })
+                    }
+                };
+            };
         })
         .catch(err => {
 
@@ -183,6 +244,8 @@ class CreateProfile extends Component {
                                     variant="outlined"
                                     id="user-input-weight"
                                     label="Your Weight"
+                                    value={this.state.userWeight}
+                                    onChange={(evt) => { this.handleChange("userWeight", evt); }}
                                     type="number"
                                     InputProps={{ 
                                         inputProps: { min: 1 } 
@@ -197,14 +260,14 @@ class CreateProfile extends Component {
                                     margin="normal"
                                     variant="outlined"
                                     label="Weight Type"
-                                    value={this.state.userWeight}
-                                    onChange={(evt) => { this.handleChange( "userWeight", evt ); }}
+                                    value={this.state.userWeightType}
+                                    onChange={(evt) => { this.handleChange("userWeightType", evt); }}
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start"> in </InputAdornment>,
                                     }}>
 
                                     {this.state.weightLabels.map(option => (
-                                        <MenuItem key={option.value} value={option.value}>
+                                        <MenuItem key={option.value} value={option}>
                                             {option.label}
                                         </MenuItem>
                                     ))}
@@ -225,6 +288,8 @@ class CreateProfile extends Component {
                                     variant="outlined"
                                     id="user-input-height"
                                     label="Your Height"
+                                    value={this.state.userHeight}
+                                    onChange={(evt) => { this.handleChange("userHeight", evt); }}
                                     type="number"
                                     InputProps={{
                                         inputProps: { min: 1, step: 0.5 }
@@ -239,14 +304,14 @@ class CreateProfile extends Component {
                                     margin="normal"
                                     variant="outlined"
                                     label="Height Type"
-                                    value={this.state.userHeight}
-                                    onChange={(evt) => { this.handleChange("userHeight", evt); }}
+                                    value={this.state.userHeightType}
+                                    onChange={(evt) => { this.handleChange("userHeightType", evt); }}
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start"> in </InputAdornment>,
                                     }}>
 
                                     {this.state.heightLabels.map(option => (
-                                        <MenuItem key={option.value} value={option.value}>
+                                        <MenuItem key={option.value} value={option}>
                                             {option.label}
                                         </MenuItem>
                                     ))}
@@ -281,6 +346,15 @@ class CreateProfile extends Component {
                             <Grid item xs={12}>
                                 <Button variant="contained" size="large" color="primary" onClick={() => this.saveDetails()}>
                                     Save
+                                </Button>
+                                <Button variant="contained" size="large" color="primary" onClick={() => this.getDetails()}>
+                                    Get Details
+                                </Button>
+                                <Button variant="contained" size="large" color="primary" onClick={this.callApi.bind(this, "api/admin")}>
+                                    Admin
+                                </Button>
+                                <Button variant="contained" size="large" color="primary" onClick={this.callApi.bind(this, "api/login/logout")}>
+                                    Logout
                                 </Button>
                             </Grid>
                         </Grid>
