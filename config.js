@@ -21,5 +21,6 @@ if (process.env.NODE_ENV !== 'production') {
 module.exports = {
     endpoint: process.env.MONGODB_URI,
     masterKey: process.env.API_KEY,
-    port: process.env.PORT
+    port: process.env.PORT,
+    redisClient: process.env.REDISCLOUD_URL
 };

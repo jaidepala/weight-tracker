@@ -2,14 +2,13 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
-const generatePassword = require('password-generator');
 const mongoose = require('mongoose');
 
 const redis = require('redis');
 const redisStore = require('connect-redis')(session);
 const client = redis.createClient();
 
-const { endpoint, masterKey, port } = require('./config');
+const { endpoint, masterKey, port, redisClient } = require('./config');
 const app = express();
 const router = express.Router();
 
@@ -30,7 +29,8 @@ client.on("ready", function () {
 */
 app.use(session({ 
     secret: 'ssshhhhh',
-    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
+    // store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
+    store: new redisStore({ host: redisClient, port: 6379, client: client, ttl: 260 }),
     saveUninitialized: false,
     resave: false
 }));
@@ -62,20 +62,6 @@ const login = require('./server/controllers/login.controller');
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
-
-router.get('/passwords', (req, res) => {
-    const count = 5;
-
-    // Generate some passwords
-    const passwords = Array.from(Array(count).keys()).map(i =>
-        generatePassword(12, false)
-    )
-
-    // Return them as json
-    res.json(passwords);
-
-    console.log(`Sent ${count} passwords`);
-});
 
 app.use('/api/user', wiki);
 app.use('/api/login', login);

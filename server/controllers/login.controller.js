@@ -41,8 +41,7 @@ router.post('/', function (req, res, next) {
             success: true,
             data: {
                 username: result.username,
-                id: result.id,
-                add: req.session
+                id: result.id
             }
         });
     });

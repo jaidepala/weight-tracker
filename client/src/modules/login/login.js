@@ -45,9 +45,7 @@ class Login extends Component {
         if( !userName || !password )
         {
             return false;
-        }
-        
-        console.log('login', userName, password)
+        };
     };
 
     updateUserName( evt ) {
