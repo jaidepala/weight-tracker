@@ -17,16 +17,17 @@ export default function SimpleSnackbar( props ) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     let snackbarConfig = props.snackbarConfig;
-    
-    const handleClick = () => {
+
+    function openSnackBar() {
+
+        console.log('snackbarConfig', snackbarConfig);
+        
         setOpen(true);
     };
+    
+    const handleClick = () => {
 
-    function showSnackBar() {
-
-        if (snackbarConfig && snackbarConfig.message) {
-            setOpen(true);
-        }
+        openSnackBar();
     };
 
     const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
@@ -37,24 +38,25 @@ export default function SimpleSnackbar( props ) {
         setOpen(false);
     };
 
+    console.log('snackbarConfig', snackbarConfig);
+    
     return (
         <div>
-            <button onClick={handleClick}>Click Me!</button>
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
                 }}
                 open={open}
-                autoHideDuration={6000}
+                autoHideDuration={ snackbarConfig.duration || 5000 }
                 onClose={handleClose}
                 ContentProps={{
                     'aria-describedby': 'message-id',
                 }}
-                message={<span id="message-id">Note archived</span>}
+                message={<span id="message-id">{ snackbarConfig.message }</span>}
                 action={[
                     <Button key="undo" color="secondary" size="small" onClick={handleClose}>
-                        UNDO
+                        { snackbarConfig.action }
                     </Button>,
                     <IconButton
                         key="close"

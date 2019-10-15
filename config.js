@@ -22,5 +22,8 @@ module.exports = {
     endpoint: process.env.MONGODB_URI,
     masterKey: process.env.API_KEY,
     port: process.env.PORT,
-    redisClient: process.env.REDISCLOUD_URL
+    redisClient: process.env.REDISCLOUD_URL,
+    redisClientDatabase: process.env.REDISCLOUD_DATABASE,
+    redisClientUserName: process.env.REDISCLOUD_USERNAME,
+    redisClientPassword: process.env.REDISCLOUD_PASSWORD
 };

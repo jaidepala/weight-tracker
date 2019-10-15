@@ -40,14 +40,12 @@ class App extends Component {
 
                             Dashboard
                         </Link>
-                        {
-                            !isLoggedIn && (<Link
-                                component="button"
-                                variant="body2"
-                                to="/login">
-                                Login
-                            </Link>)
-                        }                        
+                        <Link
+                            component="button"
+                            variant="body2"
+                            to="/login">
+                            Login
+                        </Link>                  
                         <Link
                             component="button"
                             variant="body2"

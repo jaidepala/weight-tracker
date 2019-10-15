@@ -8,7 +8,7 @@ const redis = require('redis');
 const redisStore = require('connect-redis')(session);
 const client = redis.createClient();
 
-const { endpoint, masterKey, port, redisClient } = require('./config');
+const { endpoint, masterKey, port, redisClient, redisClientDatabase, redisClientUserName, redisClientPassword } = require('./config');
 const app = express();
 const router = express.Router();
 
@@ -29,8 +29,15 @@ client.on("ready", function () {
 */
 app.use(session({ 
     secret: 'ssshhhhh',
-    // store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
-    store: new redisStore({ host: redisClient, port: 6379, client: client, ttl: 260 }),
+    store: new redisStore({ 
+        host: 'localhost', 
+        port: 6379, 
+        user     : redisClientUserName,
+        password : redisClientPassword,
+        database : redisClientDatabase,
+        client: client, 
+        ttl: 260 
+    }),
     saveUninitialized: false,
     resave: false
 }));
