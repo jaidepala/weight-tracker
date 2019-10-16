@@ -1,4 +1,5 @@
 import React, { Component, useContext, useEffect } from "react";
+import { withRouter } from 'react-router-dom'
 // import axios from "axios";
 // import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
@@ -18,7 +19,7 @@ class Login extends Component {
 
         this.state = {
             
-            userName: '',
+            username: '',
             password: ''
         };
         
@@ -28,11 +29,9 @@ class Login extends Component {
     };
 
     componentDidMount() {
-        
     };
 
     componentWillUnmount() {
-        
     };
 
     loginClick() {
@@ -40,18 +39,13 @@ class Login extends Component {
 
         //     userName: event.target.value 
         // });
-        let { userName, password } = this.state;
-
-        if( !userName || !password )
-        {
-            return false;
-        };
+        this.props.history.push('/create-profile')
     };
 
     updateUserName( evt ) {
 
         this.setState({
-            userName: evt.target.value
+            username: evt.target.value
         });
     };
 
@@ -73,7 +67,7 @@ class Login extends Component {
                             id="login-email"
                             label="Enter Email"
                             onChange={this.updateUserName}
-                            value={this.state.userName}
+                            value={this.state.username}
                             margin="normal"
                         />
                     </FormControl>
@@ -90,9 +84,7 @@ class Login extends Component {
                     </FormControl>
                     <LoginButton
     
-                        props={ this.props }
-                        username={ this.state.userName } 
-                        password={ this.state.password } 
+                        props={ this }
                     />
                 </form>
             </div>

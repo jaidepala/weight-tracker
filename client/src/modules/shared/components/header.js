@@ -34,7 +34,10 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 	import MoreIcon from '@material-ui/icons/MoreVert';
 	import MenuIcon from '@material-ui/icons/Menu';
 	import NotificationsIcon from '@material-ui/icons/Notifications';
-	import SearchIcon from '@material-ui/icons/Search';
+    import SearchIcon from '@material-ui/icons/Search';
+    
+// Services
+    import AuthContext from '../../../services/util';
 
 const useStyles = makeStyles(theme => ({
 	
@@ -289,84 +292,92 @@ export default function Header( props ) {
     );
 
     return (
-      	<div className={classes.grow}>
-			<SwipeableDrawer
-				open={state.left}
-				onClose={toggleDrawer('left', false)}
-				onOpen={toggleDrawer('left', true)}>
-				
-				{sideList('left')}
-			</SwipeableDrawer>
-        	<AppBar position="static">
-          		<Toolbar>
-            		<IconButton
-						edge="start"
-						onClick={toggleDrawer('left', true)}
-						className={classes.menuButton}
-						color="inherit"
-						aria-label="open drawer">
-              			
-						  <MenuIcon />
-            		</IconButton>
-					<Typography className={classes.title} variant="h6" noWrap>
-						Weight Tracker
-					</Typography>
-					<div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchIcon />
-						</div>
-						<InputBase
-							placeholder="Search…"
-							classes={{
-							root: classes.inputRoot,
-							input: classes.inputInput,
-							}}
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-            		</div>
-					<div className={classes.grow} />
-					<div className={classes.sectionDesktop}>
-						<IconButton aria-label="show 4 new mails" color="inherit">
-							<Badge badgeContent={4} color="secondary">
-								<MailIcon />
-							</Badge>
-						</IconButton>
-						<IconButton aria-label="show 17 new notifications" color="inherit">
-							<Badge badgeContent={17} color="secondary">
-								<NotificationsIcon />
-							</Badge>
-						</IconButton>
-						<IconButton
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit">
-							
-							<AccountCircle />
-						</IconButton>
-					</div>
-                    {
-                        isloggedin && 
-                        (
-                            <div className={classes.sectionMobile}>
+        
+        <AuthContext.Consumer>
+            {({ loggedIn, setLoggedIn }) => (
+                <div className={classes.grow}>
+                    <SwipeableDrawer
+                        open={state.left}
+                        onClose={toggleDrawer('left', false)}
+                        onOpen={toggleDrawer('left', true)}>
+                        
+                        {sideList('left')}
+                    </SwipeableDrawer>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                onClick={toggleDrawer('left', true)}
+                                className={classes.menuButton}
+                                color="inherit"
+                                aria-label="open drawer">
+                                
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography className={classes.title} variant="h6" noWrap>
+                                Weight Tracker
+                            </Typography>
+                            {
+                                loggedIn && 
+                                (<div className={classes.search}>
+                                    <div className={classes.searchIcon}>
+                                        <SearchIcon />
+                                    </div>
+                                    <InputBase
+                                        placeholder="Search…"
+                                        classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                        }}
+                                        inputProps={{ 'aria-label': 'search' }}
+                                    />
+                                </div>)
+                            }
+                            <div className={classes.grow} />
+                            <div className={classes.sectionDesktop}>
+                                <IconButton aria-label="show 4 new mails" color="inherit">
+                                    <Badge badgeContent={4} color="secondary">
+                                        <MailIcon />
+                                    </Badge>
+                                </IconButton>
+                                <IconButton aria-label="show 17 new notifications" color="inherit">
+                                    <Badge badgeContent={17} color="secondary">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
                                 <IconButton
-                                    aria-label="show more"
-                                    aria-controls={mobileMenuId}
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
                                     aria-haspopup="true"
-                                    onClick={handleMobileMenuOpen}
+                                    onClick={handleProfileMenuOpen}
                                     color="inherit">
                                     
-                                    <MoreIcon />
+                                    <AccountCircle />
                                 </IconButton>
                             </div>
-                        )
-                    }
-				</Toolbar>
-			</AppBar>
-			{renderMobileMenu}
-            {renderMenu}
-		</div>
+                            {
+                                loggedIn && 
+                                (
+                                    <div className={classes.sectionMobile}>
+                                        <IconButton
+                                            aria-label="show more"
+                                            aria-controls={mobileMenuId}
+                                            aria-haspopup="true"
+                                            onClick={handleMobileMenuOpen}
+                                            color="inherit">
+                                            
+                                            <MoreIcon />
+                                        </IconButton>
+                                    </div>
+                                )
+                            }
+                        </Toolbar>
+                    </AppBar>
+                    {renderMobileMenu}
+                    {renderMenu}
+                </div>
+            )}
+        </AuthContext.Consumer>
     );
 }

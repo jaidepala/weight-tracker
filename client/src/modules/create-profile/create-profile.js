@@ -161,8 +161,6 @@ class CreateProfile extends Component {
         axios.get("api/user/get-details")
         .then(res => {
 
-            console.log('res', res);
-
             if (res && res.data && res.data.success) {
 
                 let updateObj = {

@@ -36,9 +36,6 @@ app.use(session({
     store: new redisStore({ 
         host: 'localhost', 
         port: 6379, 
-        // user     : redisClientUserName,
-        // password : redisClientPassword,
-        // database : redisClientDatabase,
         client: client, 
         ttl: 260 
     }),

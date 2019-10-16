@@ -3,6 +3,8 @@ import { Route } from "react-router-dom";
 
 import CreateProfile from '../create-profile/create-profile';
 import { Utils } from '../../services/util';
+import AuthContext from '../../services/util';
+import withAuthProps from '../../services/with-auth-props'
 import SpinnerLoader from '../shared/components/spinner.loader';
 import axios from "axios";
 
@@ -23,10 +25,9 @@ export default function LoginButton( props ) {
     const [startLoading, setStartLoading] = React.useState(false);
     // let [startLoading] = React.useStat/e(false);
 
-    // console.log('props', props);
-
     const ReturnErrorMessage = () => {
-        let { username, password } = props;
+
+        let { username, password } = props.props.state;
         
         if( !username || !password )
         {
@@ -52,7 +53,7 @@ export default function LoginButton( props ) {
 
     function getDetails() {
         
-        let { username, password } = props;
+        let { username, password } = props.props.state;
 
         if(!username || !password)
         {
@@ -74,9 +75,13 @@ export default function LoginButton( props ) {
                 
                 // console.log('redirecting', props);
 
+                props.props.props.setLoggedIn(true);
+
                 Utils.setLoggedInUser( res.data.data );
 
-                props.props.history.push('/create-profile');
+                props.props.loginClick();
+
+                // props.props.props.props.history.push('/create-profile');
             };
 
             setOpen(true);

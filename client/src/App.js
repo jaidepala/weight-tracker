@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
 
 // Services
-    import { Utils } from './services/util';
+    import AuthContext from './services/util';
 
 // Components
     import Header from './modules/shared/components/header';
@@ -23,42 +23,86 @@ class App extends Component {
 
     render() {
 
-        const isLoggedIn = localStorage.getItem('user') != null;
-
         return (
             <div className="App">
-                
-                <Router>
-                    <div id="weight-mgmt-header">
-                        <Route component={() => <Header isloggedin={isLoggedIn} />}  />
-                    </div>
-                    <div className="link-container">
-                        <Link
-                            component="button"
-                            variant="body2"
-                            to="/dashboard">
 
-                            Dashboard
-                        </Link>
-                        <Link
-                            component="button"
-                            variant="body2"
-                            to="/login">
-                            Login
-                        </Link>                  
-                        <Link
-                            component="button"
-                            variant="body2"
-                            to="/create-profile">
-                            Create Profile
-                        </Link>
-                    </div>
-                    
-                    <Route exact path="/" component={Dashboard} />
-                    <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/create-profile" component={CreateProfile} />
-                </Router>
+                <AuthContext.Consumer>
+                    {({ loggedIn, setLoggedIn }) => (
+                        <Router>
+                            <div id="weight-mgmt-header">
+                                <Route component={() => (<Header
+                                        loggedIn={loggedIn}
+                                        setLoggedIn={setLoggedIn} />
+                                    )}  
+                                />
+                            </div>
+                            <div className="link-container">
+                                <Link
+                                    component="button"
+                                    variant="body2"
+                                    to="/dashboard">
+
+                                    Dashboard
+                                </Link>
+                                {
+                                    !loggedIn && (
+
+                                        <Link
+                                            component="button"
+                                            variant="body2"
+                                            to="/login">
+                                            Login
+                                        </Link>                  
+                                    )
+                                }
+                                <Link
+                                    component="button"
+                                    variant="body2"
+                                    to="/create-profile">
+                                    Create Profile
+                                </Link>
+                            </div>
+                            
+                            
+                            <Route exact path="/" render={(routeProps) => (
+                                <Dashboard 
+                                    {...this.props} 
+                                    {...routeProps}
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            )} />
+                            
+                            <Route path="/dashboard" render={(routeProps) => (
+                                <Dashboard 
+                                    {...this.props} 
+                                    {...routeProps}
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            )} />
+                            
+                            <Route path="/login" render={(routeProps) => (
+                                <Login 
+                                    {...this.props} 
+                                    {...routeProps}
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            )} />
+                            
+                            <Route path="/create-profile" render={(routeProps) => (
+                                <CreateProfile 
+                                    {...this.props} 
+                                    {...routeProps}
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            )} />
+
+                        </Router>
+                    )}
+                </AuthContext.Consumer>
             </div>
         );
     }

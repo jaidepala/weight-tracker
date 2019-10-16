@@ -70,6 +70,10 @@ export class Utils {
         localStorage.setItem('user', userData.id);
     };
 
+    static getLoggedInUser = () => {
+        return localStorage.getItem('user');
+    };
+
     static ShowSnackBar = ( snackbarConfig ) => {
 
         console.log('called...', snackbarConfig);
@@ -95,3 +99,11 @@ export class Utils {
     };
 
 };
+
+/* 
+    !   REF
+    *   https://stackoverflow.com/a/56192225
+*/
+const AuthContext = React.createContext(null);
+
+export default AuthContext;
