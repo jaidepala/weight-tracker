@@ -4,15 +4,17 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const redis = require('redis');
-const redisStore = require('connect-redis')(session);
-const client = redis.createClient();
-
 const { endpoint, masterKey, port, redisClient, redisClientDatabase, redisClientUserName, redisClientPassword } = require('./config');
 const app = express();
 const router = express.Router();
 
-console.log('redisClient', redisClient);
+/* 
+    !   Ref:
+    *   https://devcenter.heroku.com/articles/heroku-redis#connecting-in-node-js
+*/
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
+const client = redis.createClient(redisClient);
 
 client.on('error', function (err) {
     console.log('Redis error: \n' + err);
@@ -32,7 +34,7 @@ client.on("ready", function () {
 app.use(session({ 
     secret: 'ssshhhhh',
     store: new redisStore({ 
-        host: redisClient, 
+        host: 'localhost', 
         port: 6379, 
         // user     : redisClientUserName,
         // password : redisClientPassword,
