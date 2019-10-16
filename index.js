@@ -12,6 +12,8 @@ const { endpoint, masterKey, port, redisClient, redisClientDatabase, redisClient
 const app = express();
 const router = express.Router();
 
+console.log('redisClient', redisClient);
+
 client.on('error', function (err) {
     console.log('Redis error: \n' + err);
 });
@@ -30,11 +32,11 @@ client.on("ready", function () {
 app.use(session({ 
     secret: 'ssshhhhh',
     store: new redisStore({ 
-        host: 'localhost', 
+        host: redisClient, 
         port: 6379, 
-        user     : redisClientUserName,
-        password : redisClientPassword,
-        database : redisClientDatabase,
+        // user     : redisClientUserName,
+        // password : redisClientPassword,
+        // database : redisClientDatabase,
         client: client, 
         ttl: 260 
     }),
