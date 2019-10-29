@@ -94,8 +94,10 @@ class CreateProfile extends Component {
 
     changeDateOfBirth( date ) {
 
-        console.log('date', date);
-        
+        this.setState({
+            userDateOfBirth: date
+        });
+
         // setSelectedDate(date);
     };
 
@@ -342,7 +344,7 @@ class CreateProfile extends Component {
                     <ListItem>
                         <Grid container alignItems="center" justify="space-around">
                             <Grid item xs={12}>
-                                <Button variant="contained" size="large" color="primary" onClick={() => this.saveDetails()}>
+                                <Button variant="contained" fullWidth size="large" color="primary" onClick={() => this.saveDetails()}>
                                     Save
                                 </Button>
                                 <Button variant="contained" size="large" color="primary" onClick={() => this.getDetails()}>

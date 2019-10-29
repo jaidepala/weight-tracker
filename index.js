@@ -1,3 +1,25 @@
+/*
+               ______________________________________
+      ________|                                      |_______
+      \       |        Reference Links               |      /
+       \      |                                      |     /
+       /      |______________________________________|     \
+      /__________)                                (_________\
+    *   
+    *   Links
+    *   
+    *   Session Management:
+    *   https://medium.com/@evangow/server-authentication-basics-express-sessions-passport-and-curl-359b7456003d
+    *   https://codeforgeek.com/manage-session-using-node-js-express-4/ 
+    *   
+    *   
+    *   Reason for using useCreateIndex in mongoose.connect()
+    *   https://github.com/Automattic/mongoose/issues/6890
+    *   
+    *   
+    *   
+    *   
+*/
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
@@ -68,17 +90,31 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 const wiki = require('./server/controllers/user');
 const login = require('./server/controllers/login.controller');
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+// add & configure middleware
+app.use(session({
+    genid: (req) => {
+        return uuid() // use UUIDs for session IDs
+    },
+    store: new FileStore(),
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.use('/api/user', wiki);
 app.use('/api/login', login);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/client/build/index.html'));
+// });
+
+app.get('/', (req, res) => {
+    console.log('\nInside the homepage callback function')
+    console.log(req.sessionID)
+    res.send(`You hit home page!\n`)
+})
 
 app.listen(port);
 

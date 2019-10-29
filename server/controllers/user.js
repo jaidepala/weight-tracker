@@ -4,7 +4,8 @@ const User = require('../schemas/user.schema');
 
 // Home page route.
 router.get('/', function (req, res) {
-    res.send('Wiki home page');
+    const uniqueId = req.sessionID;
+    res.send('Wiki home page <b>' + uniqueId + '</b><br><br>Authenticated: ' + req.isAuthenticated() );
 });
 
 // Get All Details Route.
