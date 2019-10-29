@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 // Services
 import { Utils } from '../../services/util';
-import SimpleSnackbar from '../../services/snackbar';
+// import SimpleSnackbar from '../../services/snackbar';
 
 class Dashboard extends Component {
 

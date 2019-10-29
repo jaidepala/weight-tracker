@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import classNames from "classnames";
+// import classNames from "classnames";
 
 // Material Components
     import Paper from '@material-ui/core/Paper';
@@ -12,15 +12,15 @@ import classNames from "classnames";
     import Divider from '@material-ui/core/Divider';
     import Grid from '@material-ui/core/Grid';
     import DateFnsUtils from '@date-io/date-fns';
-    import MomentUtils from '@date-io/moment';
+    // import MomentUtils from '@date-io/moment';
     // import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
     import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-    import IconButton from '@material-ui/core/IconButton';
+    // import IconButton from '@material-ui/core/IconButton';
     import InputAdornment from '@material-ui/core/InputAdornment';
     import TextField from '@material-ui/core/TextField';
     import MenuItem from '@material-ui/core/MenuItem';
-    import Visibility from '@material-ui/icons/Visibility';
-    import VisibilityOff from '@material-ui/icons/VisibilityOff';
+    // import Visibility from '@material-ui/icons/Visibility';
+    // import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 class CreateProfile extends Component {
 
@@ -146,14 +146,14 @@ class CreateProfile extends Component {
     callApi( theApi ) {
 
         axios.get(theApi)
-            .then(res => {
+        .then(res => {
 
-                console.log('res', res);
-            })
-            .catch(err => {
+            console.log('res', res);
+        })
+        .catch(err => {
 
-                console.log('err', err);
-            });
+            console.error(err);
+        });
     };
 
     getDetails() {
@@ -168,8 +168,8 @@ class CreateProfile extends Component {
                     userDateOfBirth: res.data.data.dateofbirth,
                     userHeight: res.data.data.height,
                     userWeight: res.data.data.weight,
-                    userHeightType: res.data.data.heightType,
-                    userWeightType: res.data.data.weightType,
+                    userHeightType: res.data.data.heightType && res.data.data.heightType.value,
+                    userWeightType: res.data.data.weightType && res.data.data.weightType.value,
                     userGender: res.data.data.gender
                 };
 
@@ -216,7 +216,7 @@ class CreateProfile extends Component {
                                             id="userDateOfBirth"
                                             margin="normal"
                                             label="Select Date of Birth"
-                                            format="MM/DD/YYYY"
+                                            format="MM/dd/yyyy"
                                             value={this.state.userDateOfBirth}
                                             onChange={this.changeDateOfBirth}
                                             KeyboardButtonProps={{
@@ -265,7 +265,7 @@ class CreateProfile extends Component {
                                     }}>
 
                                     {this.state.weightLabels.map(option => (
-                                        <MenuItem key={option.value} value={option}>
+                                        <MenuItem key={option.value} value={option.value}>
                                             {option.label}
                                         </MenuItem>
                                     ))}
@@ -309,7 +309,7 @@ class CreateProfile extends Component {
                                     }}>
 
                                     {this.state.heightLabels.map(option => (
-                                        <MenuItem key={option.value} value={option}>
+                                        <MenuItem key={option.value} value={option.value}>
                                             {option.label}
                                         </MenuItem>
                                     ))}
@@ -326,13 +326,13 @@ class CreateProfile extends Component {
                             <Grid item xs={10}>
 
                                 <ButtonGroup fullWidth size="large" aria-label="small outlined button group">
-                                    <Button className={userGender == 'male' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Male')}>
+                                    <Button className={userGender === 'male' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Male')}>
                                         Male
                                     </Button>
-                                    <Button className={userGender == 'female' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Female')}>
+                                    <Button className={userGender === 'female' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Female')}>
                                         Female
                                     </Button>
-                                    <Button className={userGender == 'not applicable' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Not Applicable')}>
+                                    <Button className={userGender === 'not applicable' ? 'MuiButton-containedPrimary' : ''} onClick={this.setGender.bind(this, 'Not Applicable')}>
                                         Not Applicable
                                     </Button>
                                 </ButtonGroup>

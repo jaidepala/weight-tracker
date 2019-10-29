@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // import { withRouter } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ import './App.css';
 
 // Components
     import Header from './modules/shared/components/header';
+    import NeHeader from './modules/shared/components/neHeader';
     import Login from './modules/login/login';
     import Dashboard from './modules/dashboard/dashboard';
     import CreateProfile from './modules/create-profile/create-profile';
@@ -19,10 +21,15 @@ class App extends Component {
     constructor( props ) {
 
         super(props);
+
+        this.state = {};
     };
 
     render() {
+        // const TheHead = withStyles(<NeHeader />);
 
+        console.log('NeHeader', NeHeader);
+        
         return (
             <div className="App">
 
@@ -30,11 +37,20 @@ class App extends Component {
                     {({ loggedIn, setLoggedIn }) => (
                         <Router>
                             <div id="weight-mgmt-header">
-                                <Route component={() => (<Header
+                                {
+                                    /*<NeHeader loggedIn={loggedIn}
+                                        setLoggedIn={setLoggedIn} />*/
+                                }
+                                {/* <Route component={() => (
+                                        <TheHead loggedIn= { loggedIn }
+                                        setLoggedIn={setLoggedIn} />
+                                    )}
+                                />  */}
+                                {/* <Route component={() => (<Header
                                         loggedIn={loggedIn}
                                         setLoggedIn={setLoggedIn} />
                                     )}  
-                                />
+                                /> */}
                             </div>
                             <div className="link-container">
                                 <Link

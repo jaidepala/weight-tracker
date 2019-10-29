@@ -35,6 +35,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 	import MenuIcon from '@material-ui/icons/Menu';
 	import NotificationsIcon from '@material-ui/icons/Notifications';
     import SearchIcon from '@material-ui/icons/Search';
+    import SettingsIcon from '@material-ui/icons/Settings';
     
 // Services
     import AuthContext from '../../../services/util';
@@ -125,10 +126,10 @@ const useStyles = makeStyles(theme => ({
 export default function Header( props ) {
     const classes = useStyles();
 	const [state, setState] = React.useState({
-	  top: false,
-	  left: false,
-	  bottom: false,
-	  right: false,
+        top: false,
+        left: false,
+        bottom: false,
+        right: false
 	});
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isloggedin, setIsloggedin] = React.useState(props.isloggedin);
@@ -233,6 +234,10 @@ export default function Header( props ) {
 			</MenuItem>
       </Menu>
     );
+
+    function changeUrl() {
+        // props.history.push('/create-profile');
+    };
   
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -265,7 +270,7 @@ export default function Header( props ) {
 					Notifications
 				</p>
 			</MenuItem>
-        	<MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem onClick={changeUrl}>
 				<IconButton
 					aria-label="account of current user"
 					aria-controls="primary-search-account-menu"
