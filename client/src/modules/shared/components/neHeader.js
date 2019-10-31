@@ -161,7 +161,7 @@ class NeHeader extends Component {
 
         return (
             <Menu
-                anchorEl={true}
+                // anchorEl={true}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 id={mobileMenuId}
                 keepMounted
@@ -292,7 +292,7 @@ class NeHeader extends Component {
                                 </Typography>
                             </Toolbar>
                         </AppBar>
-                        { this.renderMobileMenu }
+                        { this.renderMobileMenu() }
                     </div>
                 )}
             </AuthContext.Consumer>

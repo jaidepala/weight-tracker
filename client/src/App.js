@@ -38,8 +38,8 @@ class App extends Component {
                         <Router>
                             <div id="weight-mgmt-header">
                                 {
-                                    /*<NeHeader loggedIn={loggedIn}
-                                        setLoggedIn={setLoggedIn} />*/
+                                    <NeHeader loggedIn={loggedIn}
+                                        setLoggedIn={setLoggedIn} />
                                 }
                                 {/* <Route component={() => (
                                         <TheHead loggedIn= { loggedIn }
