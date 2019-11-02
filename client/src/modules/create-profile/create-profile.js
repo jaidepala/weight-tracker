@@ -38,6 +38,7 @@ class CreateProfile extends Component {
 
         this.state = {
 
+            startLoading: false,
             // userDateOfBirth: new Date('18/8/2014'),
             _isMounted: false,
             userDateOfBirth: new Date(),
@@ -160,8 +161,16 @@ class CreateProfile extends Component {
 
     getDetails() {
 
+        this.setState({
+            startLoading: true
+        });
+
         axios.get("api/user/get-details")
-        .then(res => {
+            .then(res => {
+
+            this.setState({
+                startLoading: false
+            });
 
             if (res && res.data && res.data.success) {
 
@@ -170,8 +179,8 @@ class CreateProfile extends Component {
                     userDateOfBirth: res.data.data.dateofbirth,
                     userHeight: res.data.data.height,
                     userWeight: res.data.data.weight,
-                    userHeightType: res.data.data.heightType && res.data.data.heightType.value,
-                    userWeightType: res.data.data.weightType && res.data.data.weightType.value,
+                    userHeightType: res.data.data.heightType,
+                    userWeightType: res.data.data.weightType,
                     userGender: res.data.data.gender
                 };
 
@@ -189,6 +198,10 @@ class CreateProfile extends Component {
             };
         })
         .catch(err => {
+
+            this.setState({
+                startLoading: false
+            });
 
             console.log('err', err);
         });
@@ -360,6 +373,10 @@ class CreateProfile extends Component {
                         </Grid>
                     </ListItem>
                 </List>
+
+                <SpinnerLoader
+                    startLoading={this.state.startLoading}
+                />
             </Paper>
         );
     };

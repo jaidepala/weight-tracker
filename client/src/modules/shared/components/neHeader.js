@@ -291,8 +291,21 @@ class NeHeader extends Component {
                                     Weight Tracker
                                 </Typography>
                             </Toolbar>
+                            {
+                                loggedIn && (
+                                    <div>
+                                        Logged In!
+                                    </div>
+                                )
+                            }
+                            {
+                                !loggedIn && (
+                                    <div>
+                                        Not logged In!
+                                    </div>
+                                )
+                            }
                         </AppBar>
-                        { this.renderMobileMenu() }
                     </div>
                 )}
             </AuthContext.Consumer>
@@ -302,9 +315,7 @@ class NeHeader extends Component {
 
 NeHeader.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
-    setLoggedIn: PropTypes.func.isRequired,
+    theme: PropTypes.object.isRequired
 };
 
 export default withStyles(useStyles, { withTheme: true })(NeHeader);

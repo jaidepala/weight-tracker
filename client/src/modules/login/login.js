@@ -4,6 +4,9 @@ import axios from 'axios';
 // import clsx from 'clsx';
 import SpinnerLoader from '../shared/components/spinner.loader';
 import { Utils } from '../../services/util';
+    
+// Services
+    import AuthContext from '../../services/util';
 
 import FormControl from '@material-ui/core/FormControl';
 
@@ -56,7 +59,7 @@ class Login extends Component {
         });
     };
 
-    loginClick() {
+    loginClick(setLoggedIn) {
 
         let { username, password } = this.state;
 
@@ -93,11 +96,13 @@ class Login extends Component {
 
             if (res && res.data && res.data.success) {
 
-                this.props.setLoggedIn(true);
-
                 Utils.setLoggedInUser(res.data.data);
 
-                // this.props.history.push('/create-profile');
+                this.props.history.push('/create-profile');
+
+                console.log('setLoggedIn', this.props);
+                
+                // this.props.setLoggedIn(true);
             };
         })
         .catch(err => {
@@ -131,63 +136,68 @@ class Login extends Component {
     render() {
 
         return (
-            <div className="login-container">
-                
-                <form noValidate autoComplete="off">
-                    <FormControl className="login-form-component">
-                        <TextField
-                            id="login-email"
-                            label="Enter Email"
-                            onChange={this.updateUserName}
-                            value={this.state.username}
-                            margin="normal"
-                        />
-                    </FormControl>
-                    <FormControl className="login-form-component">
-                        <TextField
-                            id="login-password"
-                            label="Enter Password"
-                            onChange={this.updatePassword}
-                            type="password"
-                            value={this.state.password}
-                            autoComplete="current-password"
-                            margin="normal"
-                        />
-                    </FormControl>
-                    <Button
-                        className="login-form-component"
-                        variant="contained"
-                        size="large"
-                        color="primary"
-                        onClick={this.loginClick}>
 
-                        Login
-                    </Button>
-                </form>
-                <Dialog
-                    open={this.state.popUpOpen}
-                    onClose={this.closePopUp}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description">
+            <AuthContext.Consumer>
+                {({ loggedIn, setLoggedIn }) => (
+                    <div className="login-container">
+                        
+                        <form noValidate autoComplete="off">
+                            <FormControl className="login-form-component">
+                                <TextField
+                                    id="login-email"
+                                    label="Enter Email"
+                                    onChange={this.updateUserName}
+                                    value={this.state.username}
+                                    margin="normal"
+                                />
+                            </FormControl>
+                            <FormControl className="login-form-component">
+                                <TextField
+                                    id="login-password"
+                                    label="Enter Password"
+                                    onChange={this.updatePassword}
+                                    type="password"
+                                    value={this.state.password}
+                                    autoComplete="current-password"
+                                    margin="normal"
+                                />
+                            </FormControl>
+                            <Button
+                                className="login-form-component"
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                onClick={this.loginClick}>
 
-                    <DialogTitle id="alert-dialog-title">
-                        Oops!
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            {this.state.popUpMessage}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.closePopUp} color="primary" autoFocus>
-                            Ok
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-                <SpinnerLoader
-                    startLoading={this.state.startLoading}
-                />
-            </div>
+                                Login
+                            </Button>
+                        </form>
+                        <Dialog
+                            open={this.state.popUpOpen}
+                            onClose={this.closePopUp}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description">
+
+                            <DialogTitle id="alert-dialog-title">
+                                Oops!
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    {this.state.popUpMessage}
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.closePopUp} color="primary" autoFocus>
+                                    Ok
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                        <SpinnerLoader
+                            startLoading={this.state.startLoading}
+                        />
+                    </div>
+                )}
+            </AuthContext.Consumer>
         );
     };
 }
