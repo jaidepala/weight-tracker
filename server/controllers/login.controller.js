@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const LoginSchema = require("../schemas/login.schema");
-const passport = require('passport');
+// const passport = require('passport');
 // const LocalStrategy = require('passport-local').Strategy;
 
 var sess;
@@ -24,22 +24,15 @@ router.post('/', function (req, res, next) {
     
     // let sess = req.session;
 
-// loginClass.password = req.body.password;
-// loginClass.username = req.body.username;
+    let loginClass = new LoginSchema();
 
-// loginClass.find({
-//     username: loginClass.username,
-//     password: loginClass.password
-// }, function (err, result) {
+    loginClass.password = req.body.password;
+    loginClass.username = req.body.username;
 
     LoginSchema.findOne({
         username: loginClass.username,
         password: loginClass.password
     }, function (err, result) {
-
-//     // return res.json(result);
-//     return res.json(result);
-// });
 
         req.session.username = result.username;
         req.session.userid = result._id;

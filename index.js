@@ -91,15 +91,15 @@ const wiki = require('./server/controllers/user');
 const login = require('./server/controllers/login.controller');
 
 // add & configure middleware
-app.use(session({
-    genid: (req) => {
-        return uuid() // use UUIDs for session IDs
-    },
-    store: new FileStore(),
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-}));
+// app.use(session({
+//     genid: (req) => {
+//         return uuid() // use UUIDs for session IDs
+//     },
+//     store: new FileStore(),
+//     secret: 'keyboard cat',
+//     resave: false,
+//     saveUninitialized: true
+// }));
 
 app.use('/api/user', wiki);
 app.use('/api/login', login);
@@ -118,4 +118,4 @@ app.get('/', (req, res) => {
 
 app.listen(port);
 
-console.log(`Password generator listening on ${port}`);
+console.log(`Listening on ${port}`);

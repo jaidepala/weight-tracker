@@ -97,7 +97,7 @@ class Login extends Component {
 
                 Utils.setLoggedInUser(res.data.data);
 
-                this.props.history.push('/create-profile');
+                // this.props.history.push('/create-profile');
             };
         })
         .catch(err => {
