@@ -96,6 +96,7 @@ router.post('/add-details', function(req, res) {
         gender: sample.gender
     }, {
         overwrite: true,
+        new: true,
         upsert: true
     }, function(err, result) {
         

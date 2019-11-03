@@ -31,7 +31,13 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            
+
+            snackbar: {
+                open: false,
+                duration: null,
+                message: '',
+                action: ''
+            },
             username: '',
             password: '',
             startLoading: false,

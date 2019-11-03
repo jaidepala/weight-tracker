@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 // import classNames from "classnames";
+import SpinnerLoader from '../shared/components/spinner.loader';
+import WtSnackbar from '../shared/components/snackbar';
 
 // Material Components
     import Paper from '@material-ui/core/Paper';
@@ -42,6 +44,12 @@ class CreateProfile extends Component {
             // userDateOfBirth: new Date('18/8/2014'),
             _isMounted: false,
             userDateOfBirth: new Date(),
+            snackbar: {
+                open: false,
+                duration: null,
+                message: '',
+                action: ''
+            },
             userHeight: "",
             userWeight: "",
             userHeightType: "",
@@ -124,6 +132,10 @@ class CreateProfile extends Component {
     };
 
     saveDetails() {
+
+        this.setState({
+            startLoading: true
+        });
         
         axios.post("api/user/add-details", {
             dateofbirth: this.state.userDateOfBirth,
@@ -136,11 +148,36 @@ class CreateProfile extends Component {
         })
         .then(res => {
 
+            this.setState({
+                startLoading: false
+            });
+
             if (res && res != null) {
+
+                this.setState({
+                    snackbar: {
+                        open: true,
+                        message: 'Details updated successfully!',
+                        icon: 'success',
+                        duration: 5000,
+                        close: () => {
+                            this.setState({
+                                snackbar: {
+                                    open: false
+                                }
+                            })
+                        }
+                    }
+                });
+
                 this.getDetails();
             }
         })
         .catch(err => {
+
+            this.setState({
+                startLoading: false
+            });
 
             console.log('err', err);
         });
@@ -161,16 +198,8 @@ class CreateProfile extends Component {
 
     getDetails() {
 
-        this.setState({
-            startLoading: true
-        });
-
         axios.get("api/user/get-details")
-            .then(res => {
-
-            this.setState({
-                startLoading: false
-            });
+        .then(res => {
 
             if (res && res.data && res.data.success) {
 
@@ -198,10 +227,6 @@ class CreateProfile extends Component {
             };
         })
         .catch(err => {
-
-            this.setState({
-                startLoading: false
-            });
 
             console.log('err', err);
         });
@@ -245,7 +270,6 @@ class CreateProfile extends Component {
                     </ListItem>
                     <Divider />
                     <ListItem divider space={2}>
-
                         <Grid container alignItems="center" justify="space-around">
                             <Grid item xs={2}>
                                 <ListItemText primary="Weight" margin="normal" />
@@ -289,7 +313,6 @@ class CreateProfile extends Component {
                         </Grid>
                     </ListItem>
                     <ListItem>
-
                         <Grid container>
                             <Grid item xs={2}>
                                 <ListItemText primary="Height" margin="normal" />
@@ -374,6 +397,7 @@ class CreateProfile extends Component {
                     </ListItem>
                 </List>
 
+                <WtSnackbar snackbarConfig={this.state.snackbar} />
                 <SpinnerLoader
                     startLoading={this.state.startLoading}
                 />
