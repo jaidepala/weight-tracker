@@ -2,6 +2,7 @@ import React, { Component, useContext, useEffect } from 'react';
 import { withRouter } from 'react-router-dom'
 import axios from 'axios';
 // import clsx from 'clsx';
+import WtSnackbar from '../shared/components/snackbar';
 import SpinnerLoader from '../shared/components/spinner.loader';
 import { Utils } from '../../services/util';
     
@@ -113,7 +114,23 @@ class Login extends Component {
         })
         .catch(err => {
 
-            let msg = 'Could not verify login.';
+                // this.setState({
+                //     snackbar: {
+                //         open: true,
+                //         message: 'Welcome User!',
+                //         icon: 'info',
+                //         duration: 5000,
+                //         close: () => {
+                //             this.setState({
+                //                 snackbar: {
+                //                     open: false
+                //                 }
+                //             })
+                //         }
+                //     }
+                // });
+
+            let msg = (err && err.message) || 'Could not verify login.';
 
             this.setState({
                 startLoading: false,
@@ -198,6 +215,7 @@ class Login extends Component {
                                 </Button>
                             </DialogActions>
                         </Dialog>
+                        <WtSnackbar snackbarConfig={this.state.snackbar} />
                         <SpinnerLoader
                             startLoading={this.state.startLoading}
                         />

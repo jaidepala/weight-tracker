@@ -228,6 +228,25 @@ class CreateProfile extends Component {
         })
         .catch(err => {
 
+            let msg = err && err.message || 'Could not fetch details!';
+
+            this.setState({
+                snackbar: {
+                    open: true,
+                    message: msg,
+                    icon: 'error',
+                    duration: 5000,
+                    close: () => {
+
+                        this.setState({
+                            snackbar: {
+                                open: false
+                            }
+                        })
+                    }
+                }
+            });
+
             console.log('err', err);
         });
     };

@@ -22,11 +22,6 @@ import { withStyles, fade, makeStyles } from '@material-ui/core/styles';
 	import ListItemIcon from '@material-ui/core/ListItemIcon';
 	import ListItemText from '@material-ui/core/ListItemText';
 
-// Content
-    import GridList from '@material-ui/core/GridList';
-    import GridListTile from '@material-ui/core/GridListTile';
-    import tileData from './tileData';
-
 // Icons
 	import HomeIcon from '@material-ui/icons/Home';
 	import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -41,68 +36,69 @@ import { withStyles, fade, makeStyles } from '@material-ui/core/styles';
 // Services
     import AuthContext from '../../../services/util';
 
-const useStyles = makeStyles(theme => ({
+// const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
 	
 	// Header
-		grow: {
-			flexGrow: 1,
-		},
-		menuButton: {
-			marginRight: theme.spacing(2),
-		},
-		title: {
-			display: 'none',
-			[theme.breakpoints.up('sm')]: {
-				display: 'block',
-			},
-		},
-		search: {
-			position: 'relative',
-			borderRadius: theme.shape.borderRadius,
-			backgroundColor: fade(theme.palette.common.white, 0.15),
-				'&:hover': {
-					backgroundColor: fade(theme.palette.common.white, 0.25),
-			},
-			marginRight: theme.spacing(2),
-			marginLeft: 0,
-			width: '100%',
-			[theme.breakpoints.up('sm')]: {
-				marginLeft: theme.spacing(3),
-				width: 'auto',
-			},
-		},
-		searchIcon: {
-			width: theme.spacing(7),
-			height: '100%',
-			position: 'absolute',
-			pointerEvents: 'none',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-		},
-		inputRoot: {
-			color: 'inherit',
-		},
-		inputInput: {
-			padding: theme.spacing(1, 1, 1, 7),
-			transition: theme.transitions.create('width'),
-			width: '100%',
-			[theme.breakpoints.up('md')]: {
-				width: 200,
-			},
-		},
-		sectionDesktop: {
-			display: 'none',
-			[theme.breakpoints.up('md')]: {
-				display: 'flex',
-			},
-		},
-		sectionMobile: {
-			display: 'flex',
-			[theme.breakpoints.up('md')]: {
-				display: 'none',
-			},
-		},
+        grow: {
+            flexGrow: 1,
+        },
+        menuButton: {
+            marginRight: theme.spacing(2),
+        },
+        title: {
+            display: 'none',
+            [theme.breakpoints.up('sm')]: {
+                display: 'block',
+            },
+        },
+        search: {
+            position: 'relative',
+            borderRadius: theme.shape.borderRadius,
+            backgroundColor: fade(theme.palette.common.white, 0.15),
+            '&:hover': {
+                backgroundColor: fade(theme.palette.common.white, 0.25),
+            },
+            marginRight: theme.spacing(2),
+            marginLeft: 0,
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                marginLeft: theme.spacing(3),
+                width: 'auto',
+            },
+        },
+        searchIcon: {
+            width: theme.spacing(7),
+            height: '100%',
+            position: 'absolute',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        inputRoot: {
+            color: 'inherit',
+        },
+        inputInput: {
+            padding: theme.spacing(1, 1, 1, 7),
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('md')]: {
+                width: 200,
+            },
+        },
+        sectionDesktop: {
+            display: 'none',
+            [theme.breakpoints.up('md')]: {
+                display: 'flex',
+            },
+        },
+        sectionMobile: {
+            display: 'flex',
+            [theme.breakpoints.up('md')]: {
+                display: 'none',
+            },
+        },
 	// Drawer
 		list: {
 			width: 250,
@@ -122,7 +118,7 @@ const useStyles = makeStyles(theme => ({
             width: 500,
             height: 450,
         },
-}));
+});
 
 class NeHeader extends Component {
 
@@ -131,6 +127,9 @@ class NeHeader extends Component {
         super(props);
 
         this.state = {
+
+            anchorEl: null,
+            mobileAnchorEl: null,
             sideMenuDirection: 'right',
             sideMenuToggle: false
         };
@@ -139,6 +138,8 @@ class NeHeader extends Component {
         this.sideList = this.sideList.bind(this);
         this.linkClick = this.linkClick.bind(this);
         this.renderMobileMenu = this.renderMobileMenu.bind(this);
+        this.renderMenu = this.renderMenu.bind(this);
+        this.handleMenuClose = this.handleMenuClose.bind(this);
         this.handleMobileMenuClose = this.handleMobileMenuClose.bind(this);
     };
 
@@ -153,6 +154,18 @@ class NeHeader extends Component {
         console.log('called...');
         
         // setMobileMoreAnchorEl(null);
+    };
+
+    handleProfileMenuOpen(event) {
+        this.setState({
+            anchorEl: event.currentTarget
+        });
+    };
+
+    handleMobileMenuOpen(event) {
+        this.setState({
+            mobileAnchorEl: event.currentTarget
+        });
     };
 
     renderMobileMenu() {
@@ -205,6 +218,32 @@ class NeHeader extends Component {
             </Menu>
         );
     };
+
+    handleMenuClose() {
+        this.setState({
+            anchorEl: null,
+            mobileAnchorEl: null
+        });
+    };
+
+    renderMenu() {
+
+        const menuId = 'primary-search-account-menu';
+        let isMenuOpen = (this.state.anchorEl) ? true : false
+
+        return (<Menu
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenuOpen}
+            onClose={this.handleMenuClose}>
+
+            <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        </Menu>
+    )};
 
     sideList() {
 
@@ -264,7 +303,14 @@ class NeHeader extends Component {
     };
 
     render() {
+        
+        const mobileMenuId = 'primary-search-account-menu-mobile';
+        const menuId = 'primary-search-account-menu';
 
+        const { classes } = this.props;
+
+        console.log('classes', classes);
+        
         return (
 
             <AuthContext.Consumer>
@@ -277,35 +323,72 @@ class NeHeader extends Component {
                             
                             {this.sideList()}
                         </SwipeableDrawer>
-                        <AppBar position="static">
-                            <Toolbar>
-                                <IconButton
-                                    edge="start"
-                                    onClick={this.toggleDrawer(true)}
-                                    color="inherit"
-                                    aria-label="open drawer">
+                        <div className={classes.grow}>
+                            <AppBar position="static">
+                                <Toolbar>
+                                    <IconButton
+                                        edge="start"
+                                        onClick={this.toggleDrawer(true)}
+                                        color="inherit"
+                                        aria-label="open drawer">
 
-                                    <MenuIcon />
-                                </IconButton>
-                                <Typography variant="h6" noWrap>
-                                    Weight Tracker
-                                </Typography>
-                            </Toolbar>
-                            {
-                                loggedIn && (
-                                    <div>
-                                        Logged In!
+                                        <MenuIcon />
+                                    </IconButton>
+                                    <Typography variant="h6" noWrap>
+                                        Weight Tracker
+                                    </Typography>
+                                    <div className={classes.search}>
+                                        <div className={classes.searchIcon}>
+                                            <SearchIcon />
+                                        </div>
+                                        <InputBase
+                                            placeholder="Search…"
+                                            classes={{
+                                                root: classes.inputRoot,
+                                                input: classes.inputInput,
+                                            }}
+                                            inputProps={{ 'aria-label': 'search' }}
+                                        />
                                     </div>
-                                )
-                            }
-                            {
-                                !loggedIn && (
-                                    <div>
-                                        Not logged In!
+                                    <div className={classes.grow} />
+                                    <div className={classes.sectionDesktop}>
+                                        <IconButton aria-label="show 4 new mails" color="inherit">
+                                            <Badge badgeContent={4} color="secondary">
+                                                <MailIcon />
+                                            </Badge>
+                                        </IconButton>
+                                        <IconButton aria-label="show 17 new notifications" color="inherit">
+                                            <Badge badgeContent={17} color="secondary">
+                                                <NotificationsIcon />
+                                            </Badge>
+                                        </IconButton>
+                                        <IconButton
+                                            edge="end"
+                                            aria-label="account of current user"
+                                            aria-controls={menuId}
+                                            aria-haspopup="true"
+                                            onClick={this.handleProfileMenuOpen}
+                                            color="inherit">
+
+                                            <AccountCircle />
+                                        </IconButton>
                                     </div>
-                                )
-                            }
-                        </AppBar>
+                                    <div className={classes.sectionMobile}>
+                                        <IconButton
+                                            aria-label="show more"
+                                            aria-controls={mobileMenuId}
+                                            aria-haspopup="true"
+                                            onClick={this.handleMobileMenuOpen}
+                                            color="inherit">
+
+                                            <MoreIcon />
+                                        </IconButton>
+                                    </div>
+                                </Toolbar>
+                            </AppBar>
+                            { this.renderMobileMenu() }
+                            { this.renderMenu() }
+                        </div>
                     </div>
                 )}
             </AuthContext.Consumer>

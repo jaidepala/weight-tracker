@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
@@ -54,30 +54,30 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function WtSnackbar( props ) {
     const classes = useStyles();
-    const { ...other } = props.snackbarConfig;
-    const [open, setOpen] = React.useState(false);
+    // const { ...other } = props.snackbarConfig;
+    // const [open, setOpen] = React.useState(false);
     let snackbarConfig = props.snackbarConfig;
     const Icon = snackbarConfig && snackbarConfig.icon && variantIcon[snackbarConfig.icon];
 
-    function openSnackBar() {
+    // function openSnackBar() {
 
-        console.log('snackbarConfig', snackbarConfig);
+    //     console.log('snackbarConfig', snackbarConfig);
         
-        setOpen(true);
-    };
+    //     setOpen(true);
+    // };
     
-    const handleClick = () => {
+    // const handleClick = () => {
 
-        openSnackBar();
-    };
+    //     openSnackBar();
+    // };
 
-    const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+    // const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
+    //     if (reason === 'clickaway') {
+    //         return;
+    //     }
 
-        setOpen(false);
-    };
+    //     setOpen(false);
+    // };
     
     if (Icon && Icon != null)
     {
