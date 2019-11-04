@@ -44,6 +44,11 @@ h1 {
   background-color: #FFEFA9;
 }
 
+.menu-action-container {
+    width: auto;
+    display: contents;
+}
+
 /* 
     Login
 */
