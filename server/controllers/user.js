@@ -4,7 +4,8 @@ const User = require('../schemas/user.schema');
 
 // Home page route.
 router.get('/', function (req, res) {
-    res.send('Wiki home page');
+    const uniqueId = req.sessionID;
+    res.send('Wiki home page <b>' + uniqueId + '</b><br><br>Authenticated: ' + req.isAuthenticated() );
 });
 
 // Get All Details Route.
@@ -83,11 +84,28 @@ router.post('/add-details', function(req, res) {
         })
     }
 
-    sample.save(function(err, result) {
+    User.findOneAndUpdate({
+        userId: sample.userId
+    }, {
+        userId: sample.userId,
+        dateofbirth: sample.dateofbirth,
+        height: sample.height,
+        weight: sample.weight,
+        heightType: sample.heightType,
+        weightType: sample.weightType,
+        gender: sample.gender
+    }, {
+        overwrite: true,
+        new: true,
+        upsert: true
+    }, function(err, result) {
         
         if(err) return res.send(err);
 
-        return res.json(result);
+        return res.json({
+            success: true,
+            message: 'Updated Successfully!'
+        });
     });
 });
 

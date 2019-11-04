@@ -9,6 +9,8 @@
 		"start-prod": "node .",
 		"start-dev": "nodenv -f .",
 		"preload": "node -r dotenv/config index.js",
+		"ss": "npm run start-server",
+		"sc": "npm run start-client",
 		"start-server": "nodemon index.js",
 		"start-client": "cd client && npm start",
 		"start-both": "concurrently --kill-others \"npm run start-server\" \"npm run start-client\" ",
@@ -24,8 +26,6 @@
 	"author": "Jay Depala",
 	"license": "ISC",
 	"dependencies": {
-		"@date-io/date-fns": "^1.3.9",
-		"@material-ui/pickers": "^3.2.4",
 		"bcrypt": "^3.0.6",
 		"body-parser": "^1.19.0",
 		"connect-mongo": "^3.0.0",
