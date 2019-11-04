@@ -87,9 +87,9 @@ class Login extends Component {
             return false;
         };
 
-        this.setState({
-            startLoading: true
-        });
+        // this.setState({
+        //     startLoading: true
+        // });
 
         axios.post("api/login/", {
             username: username,
@@ -107,7 +107,7 @@ class Login extends Component {
 
                 this.props.history.push('/create-profile');
 
-                console.log('setLoggedIn', this.props);
+                this.props.setLoggedIn(true);
                 
                 // this.props.setLoggedIn(true);
             };

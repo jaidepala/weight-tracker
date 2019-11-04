@@ -27,8 +27,6 @@ class App extends Component {
 
     render() {
         // const TheHead = withStyles(<NeHeader />);
-
-        console.log('NeHeader', NeHeader);
         
         return (
             <div className="App">
