@@ -139,7 +139,7 @@ export default function WtSnackbar( props ) {
                             onClick={snackbarConfig.close}>
     
                             <CloseIcon />
-                        </IconButton>,
+                        </IconButton>
                     ]}
                 />
             </div>
