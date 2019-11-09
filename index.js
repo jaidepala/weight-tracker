@@ -106,15 +106,15 @@ app.use('/api/login', login);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname + '/client/build/index.html'));
-// });
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
-app.get('/', (req, res) => {
-    console.log('\nInside the homepage callback function')
-    console.log(req.sessionID)
-    res.send(`You hit home page!\n`)
-})
+// app.get('/', (req, res) => {
+//     console.log('\nInside the homepage callback function')
+//     console.log(req.sessionID)
+//     res.send(`You hit home page!\n`)
+// })
 
 app.listen(port);
 
