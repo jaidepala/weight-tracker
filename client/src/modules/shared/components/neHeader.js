@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, fade, makeStyles } from '@material-ui/core/styles';
+import { Utils } from '../../../services/util';
 // import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 // Header
@@ -31,6 +32,7 @@ import { withStyles, fade, makeStyles } from '@material-ui/core/styles';
 	import MenuIcon from '@material-ui/icons/Menu';
 	import NotificationsIcon from '@material-ui/icons/Notifications';
     import SearchIcon from '@material-ui/icons/Search';
+    import ExitToAppIcon from '@material-ui/icons/ExitToApp';
     import SettingsIcon from '@material-ui/icons/Settings';
     
 // Services
@@ -137,9 +139,12 @@ class NeHeader extends Component {
         this.toggleDrawer = this.toggleDrawer.bind(this);
         this.sideList = this.sideList.bind(this);
         this.linkClick = this.linkClick.bind(this);
+        this.logoutClick = this.logoutClick.bind(this);
         this.renderMobileMenu = this.renderMobileMenu.bind(this);
         this.renderMenu = this.renderMenu.bind(this);
         this.handleMenuClose = this.handleMenuClose.bind(this);
+        this.handleProfileMenuOpen = this.handleProfileMenuOpen.bind(this);
+        this.handleMobileMenuOpen = this.handleMobileMenuOpen.bind(this);
         this.handleMobileMenuClose = this.handleMobileMenuClose.bind(this);
     };
 
@@ -151,9 +156,10 @@ class NeHeader extends Component {
     };
 
     handleMobileMenuClose() {
-        console.log('called...');
         
-        // setMobileMoreAnchorEl(null);
+        this.handleMobileMenuOpen({
+            currentTarget: null
+        });
     };
 
     handleProfileMenuOpen(event) {
@@ -163,9 +169,21 @@ class NeHeader extends Component {
     };
 
     handleMobileMenuOpen(event) {
+        
         this.setState({
             mobileAnchorEl: event.currentTarget
         });
+    };
+
+    logoutClick() {
+
+        Utils.removeLoggedInUser();
+
+        console.log(this.props)
+
+        // this.props.setLoggedIn(false);
+
+        // this.props.history.push('/login');
     };
 
     renderMobileMenu() {
@@ -174,12 +192,12 @@ class NeHeader extends Component {
 
         return (
             <Menu
-                // anchorEl={true}
+                anchorEl={this.state.mobileAnchorEl}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 id={mobileMenuId}
                 keepMounted
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={this.state.sideMenuToggle}
+                open={this.state.mobileAnchorEl ? true : false}
                 onClose={this.handleMobileMenuClose}>
     
                 <MenuItem>
@@ -214,6 +232,16 @@ class NeHeader extends Component {
                     <p>
                         Profile
                     </p>
+                </MenuItem>
+                <MenuItem>
+                    <IconButton
+                        aria-label="sign out of current user"
+                        aria-controls="logout"
+                        onClick={this.logoutClick()}
+                        color="inherit">
+    
+                        <ExitToAppIcon />
+                    </IconButton>
                 </MenuItem>
             </Menu>
         );
@@ -308,8 +336,6 @@ class NeHeader extends Component {
         const menuId = 'primary-search-account-menu';
 
         const { classes } = this.props;
-
-        console.log('classes', classes);
         
         return (
 
@@ -334,56 +360,86 @@ class NeHeader extends Component {
 
                                         <MenuIcon />
                                     </IconButton>
-                                    <Typography variant="h6" noWrap>
+                                    <Typography variant="h6" noWrap className={loggedIn ? classes.title : ''}>
                                         Weight Tracker
                                     </Typography>
-                                    <div className={classes.search}>
-                                        <div className={classes.searchIcon}>
-                                            <SearchIcon />
-                                        </div>
-                                        <InputBase
-                                            placeholder="Search…"
-                                            classes={{
-                                                root: classes.inputRoot,
-                                                input: classes.inputInput,
-                                            }}
-                                            inputProps={{ 'aria-label': 'search' }}
-                                        />
-                                    </div>
-                                    <div className={classes.grow} />
-                                    <div className={classes.sectionDesktop}>
-                                        <IconButton aria-label="show 4 new mails" color="inherit">
-                                            <Badge badgeContent={4} color="secondary">
-                                                <MailIcon />
-                                            </Badge>
-                                        </IconButton>
-                                        <IconButton aria-label="show 17 new notifications" color="inherit">
-                                            <Badge badgeContent={17} color="secondary">
-                                                <NotificationsIcon />
-                                            </Badge>
-                                        </IconButton>
-                                        <IconButton
-                                            edge="end"
-                                            aria-label="account of current user"
-                                            aria-controls={menuId}
-                                            aria-haspopup="true"
-                                            onClick={this.handleProfileMenuOpen}
-                                            color="inherit">
+                                    {
+                                        loggedIn && (
 
-                                            <AccountCircle />
-                                        </IconButton>
-                                    </div>
-                                    <div className={classes.sectionMobile}>
-                                        <IconButton
-                                            aria-label="show more"
-                                            aria-controls={mobileMenuId}
-                                            aria-haspopup="true"
-                                            onClick={this.handleMobileMenuOpen}
-                                            color="inherit">
+                                            <div className={classes.search}>
+                                                <div className={classes.searchIcon}>
+                                                    <SearchIcon />
+                                                </div>
+                                                <InputBase
+                                                    placeholder="Search…"
+                                                    classes={{
+                                                        root: classes.inputRoot,
+                                                        input: classes.inputInput,
+                                                    }}
+                                                    inputProps={{ 'aria-label': 'search' }}
+                                                />
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        loggedIn && (
 
-                                            <MoreIcon />
-                                        </IconButton>
-                                    </div>
+                                            <div className={classes.grow} />
+                                        )
+                                    }
+                                    {
+                                        loggedIn && (
+
+                                            <div className={classes.sectionDesktop}>
+                                                <IconButton aria-label="show 4 new mails" color="inherit">
+                                                    <Badge badgeContent={4} color="secondary">
+                                                        <MailIcon />
+                                                    </Badge>
+                                                </IconButton>
+                                                <IconButton aria-label="show 17 new notifications" color="inherit">
+                                                    <Badge badgeContent={17} color="secondary">
+                                                        <NotificationsIcon />
+                                                    </Badge>
+                                                </IconButton>
+                                                <IconButton
+                                                    edge="end"
+                                                    aria-label="account of current user"
+                                                    aria-controls={menuId}
+                                                    aria-haspopup="true"
+                                                    onClick={this.handleProfileMenuOpen}
+                                                    color="inherit">
+
+                                                    <ExitToAppIcon />
+                                                </IconButton>
+                                                <IconButton
+                                                    edge="end"
+                                                    aria-label="account of current user"
+                                                    aria-controls={menuId}
+                                                    aria-haspopup="true"
+                                                    onClick={this.handleProfileMenuOpen}
+                                                    color="inherit">
+
+                                                    <AccountCircle />
+                                                </IconButton>
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        loggedIn && (
+
+                                            <div className={classes.sectionMobile}>
+                                                <IconButton
+                                                    aria-label="show more"
+                                                    aria-controls={mobileMenuId}
+                                                    aria-haspopup="true"
+                                                    onClick={ this.handleMobileMenuOpen }
+                                                    color="inherit">
+
+                                                    <MoreIcon />
+                                                </IconButton>
+                                            </div>
+                                        )
+                                    }
                                 </Toolbar>
                             </AppBar>
                             { this.renderMobileMenu() }

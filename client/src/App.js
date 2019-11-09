@@ -14,6 +14,7 @@ import './App.css';
     import NeHeader from './modules/shared/components/neHeader';
     import Login from './modules/login/login';
     import Dashboard from './modules/dashboard/dashboard';
+    import Settings from './modules/settings/settings';
     import CreateProfile from './modules/create-profile/create-profile';
 
 class App extends Component {
@@ -28,8 +29,6 @@ class App extends Component {
     render() {
         // const TheHead = withStyles(<NeHeader />);
 
-        console.log('NeHeader', NeHeader);
-        
         return (
             <div className="App">
 
@@ -55,7 +54,7 @@ class App extends Component {
                                 <Link
                                     component="button"
                                     variant="body2"
-                                    to="/dashboard">
+                                    to="/settings">
 
                                     Dashboard
                                 </Link>
@@ -108,6 +107,15 @@ class App extends Component {
                             
                             <Route path="/create-profile" render={(routeProps) => (
                                 <CreateProfile 
+                                    {...this.props} 
+                                    {...routeProps}
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            )} />
+                            
+                            <Route path="/settings" render={(routeProps) => (
+                                <Settings 
                                     {...this.props} 
                                     {...routeProps}
                                     loggedIn={loggedIn}

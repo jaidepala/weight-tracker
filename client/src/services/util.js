@@ -70,13 +70,15 @@ export class Utils {
         localStorage.setItem('user', userData.id);
     };
 
+    static removeLoggedInUser = () => {
+        localStorage.removeItem('user');
+    };
+
     static getLoggedInUser = () => {
         return localStorage.getItem('user');
     };
 
     static ShowSnackBar = ( snackbarConfig ) => {
-
-        console.log('called...', snackbarConfig);
 
         let handleClose = () => {
             console.log('close');

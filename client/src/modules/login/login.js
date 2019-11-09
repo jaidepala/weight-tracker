@@ -109,7 +109,7 @@ class Login extends Component {
 
                 console.log('setLoggedIn', this.props);
                 
-                // this.props.setLoggedIn(true);
+                this.props.setLoggedIn(true);
             };
         })
         .catch(err => {

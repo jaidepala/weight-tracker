@@ -6,10 +6,11 @@ import * as serviceWorker from './serviceWorker';
 
 // Services
 import AuthContext from './services/util';
+import { Utils } from './services/util';
 
 const AppWrapper = () => {
-    const [loggedIn, setLoggedIn] = useState(false)
-
+    const [loggedIn, setLoggedIn] = useState(Utils.isLoggedIn());
+    
     return (
         <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
             <App />
