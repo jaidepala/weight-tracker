@@ -16,6 +16,7 @@ import './App.css';
     import Dashboard from './modules/dashboard/dashboard';
     import Settings from './modules/settings/settings';
     import CreateProfile from './modules/create-profile/create-profile';
+    import Payment from './modules/add-card/add-card';
 
 class App extends Component {
 
@@ -107,6 +108,15 @@ class App extends Component {
                             
                             <Route path="/create-profile" render={(routeProps) => (
                                 <CreateProfile 
+                                    {...this.props} 
+                                    {...routeProps}
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            )} />
+
+                            <Route path="/pay" render={(routeProps) => (
+                                <Payment 
                                     {...this.props} 
                                     {...routeProps}
                                     loggedIn={loggedIn}
