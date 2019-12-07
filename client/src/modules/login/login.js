@@ -1,5 +1,5 @@
 import React, { Component, useContext, useEffect } from 'react';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 // import clsx from 'clsx';
 import WtSnackbar from '../shared/components/snackbar';

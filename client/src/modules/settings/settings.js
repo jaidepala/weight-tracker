@@ -20,7 +20,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import PaymentIcon from '@material-ui/icons/Payment';
 import PersonIcon from '@material-ui/icons/Person';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -114,11 +114,11 @@ class Settings extends Component {
                                                 </ListItemIcon>
                                                 <ListItemText primary="Inbox" />
                                             </ListItem>
-                                            <ListItem onClick={this.redirectTo.bind(this, '/create-profile')} button>
+                                            <ListItem onClick={this.redirectTo.bind(this, '/pay')} button>
                                                 <ListItemIcon>
-                                                    <DraftsIcon />
+                                                    <PaymentIcon />
                                                 </ListItemIcon>
-                                                <ListItemText primary="Drafts" />
+                                                <ListItemText primary="Payment" />
                                             </ListItem>
                                         </List>
                                         <Divider />

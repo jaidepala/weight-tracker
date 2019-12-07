@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import SVG from 'react-inlinesvg';
-// import axios from "axios";
+import { Utils } from '../../services/util';
+import axios from "axios";
+
+import SpinnerLoader from '../shared/components/spinner.loader';
+
+/* 
+    !   Dialog
+    *   
+    *   REF: https://material-ui.com/components/dialogs/
+*/
+    import Button from '@material-ui/core/Button';
 
 // Services
 // import { Utils } from '../../services/util';
@@ -25,6 +35,8 @@ class Payment extends Component {
             SingleTemplate: null,
             lightColor: 'grey',
             darkColor: 'greydark',
+
+            startLoading: false,
 
             cardNumberMask: null,
             expirationDateMask: null,
@@ -324,6 +336,38 @@ class Payment extends Component {
         });
     };
 
+    saveCard() {
+
+        let { name, number, expiration, securityCode } = this.state;
+
+        this.setState({
+            startLoading: true
+        });
+
+        axios.post("api/user/add-card", {
+            cardNumber: name,
+            cardHolder: number,
+            cardCvv: expiration,
+            cardExpiry: securityCode
+        })
+        .then(res => {
+
+            this.setState({
+                startLoading: false
+            });
+
+            if (res && res.data && res.data.success) {
+                
+            };
+        })
+        .catch(err => {
+            
+            console.error('err', err);
+        });
+        
+
+    };
+
     render() {
 
         let { name, number, expiration, securityCode, IconTemplate, SingleTemplate, lightColor, darkColor } = this.state;
@@ -461,7 +505,20 @@ class Payment extends Component {
                         <label htmlFor="securitycode">Security Code</label>
                         <input onChange={ (event) => { this.updateCard('securityCode', event) } } onFocus={ () => this.focusEvents('securitycode') } id="securitycode" type="text" pattern="[0-9]*" inputMode="numeric" />
                     </div>
+                    <div className="add-card-btn-container">
+                        <Button
+                            variant="contained"
+                            size="large"
+                            color="primary"
+                            onClick={this.saveCard}>
+
+                            Save
+                        </Button>
+                    </div>
                 </div>
+                <SpinnerLoader
+                    startLoading={this.state.startLoading}
+                />
         </div>);
     };
 }

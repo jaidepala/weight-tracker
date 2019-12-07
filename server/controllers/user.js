@@ -109,4 +109,24 @@ router.post('/add-details', function(req, res) {
     });
 });
 
+router.post('/add-card', function(req, res) {
+
+    let sample = new Card();
+
+    sample.cardNumber = req.body.cardNumber;
+    sample.cardHolder = req.body.cardHolder;
+    sample.cardCvv = req.body.cardCvv;
+    sample.cardExpiry = req.body.cardExpiry;
+
+    Card.save(function (err, result) {
+
+        if (err) return res.send(err);
+
+        return res.json({
+            success: true,
+            message: 'Added Successfully!'
+        });
+    });
+});
+
 module.exports = router;
