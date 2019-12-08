@@ -11,6 +11,11 @@ import SpinnerLoader from '../shared/components/spinner.loader';
     *   REF: https://material-ui.com/components/dialogs/
 */
     import Button from '@material-ui/core/Button';
+    import Dialog from '@material-ui/core/Dialog';
+    import DialogActions from '@material-ui/core/DialogActions';
+    import DialogContent from '@material-ui/core/DialogContent';
+    import DialogContentText from '@material-ui/core/DialogContentText';
+    import DialogTitle from '@material-ui/core/DialogTitle';
 
 // Services
 // import { Utils } from '../../services/util';
@@ -36,6 +41,8 @@ class Payment extends Component {
             lightColor: 'grey',
             darkColor: 'greydark',
 
+            popUpOpen: false,
+            popUpMessage: '',
             startLoading: false,
 
             cardNumberMask: null,
@@ -45,6 +52,8 @@ class Payment extends Component {
 
         this.focusEvents = this.focusEvents.bind(this);
         this.updateCard = this.updateCard.bind(this);
+        this.saveCard = this.saveCard.bind(this);
+        this.closePopUp = this.closePopUp.bind(this);
         
     };
   
@@ -174,6 +183,14 @@ class Payment extends Component {
         })
 
         return template;
+    };
+
+    closePopUp() {
+
+        this.setState({
+            popUpOpen: false,
+            popUpMessage: ''
+        });
     };
 
     loadIMaskVariables() {
@@ -340,6 +357,29 @@ class Payment extends Component {
 
         let { name, number, expiration, securityCode } = this.state;
 
+        console.log(name, number, expiration, securityCode);
+
+        if (!name || !number || !expiration || !securityCode || name == 'John Doe' || number == '0123 4567 8910 1234' || expiration == '01/23' || securityCode == '123') {
+            
+            let msg = '';
+
+            if (!name || name == 'John Doe')
+                msg = 'Please enter name.';
+            else if (!number || number == '0123 4567 8910 1234')
+                msg = 'Please enter number.';
+            else if (!expiration || expiration == '01/23')
+                msg = 'Please enter expiration date.';
+            else if (!securityCode || securityCode == '123')
+                msg = 'Please enter security code.';
+
+            this.setState({
+                popUpOpen: true,
+                popUpMessage: msg
+            });
+
+            return false;
+        }
+
         this.setState({
             startLoading: true
         });
@@ -361,6 +401,10 @@ class Payment extends Component {
             };
         })
         .catch(err => {
+
+            this.setState({
+                startLoading: false
+            });
             
             console.error('err', err);
         });
@@ -516,6 +560,26 @@ class Payment extends Component {
                         </Button>
                     </div>
                 </div>
+                <Dialog
+                    open={this.state.popUpOpen}
+                    onClose={this.closePopUp}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+
+                    <DialogTitle id="alert-dialog-title">
+                        Oops!
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {this.state.popUpMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closePopUp} color="primary" autoFocus>
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <SpinnerLoader
                     startLoading={this.state.startLoading}
                 />

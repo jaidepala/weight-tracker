@@ -90,6 +90,9 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 const wiki = require('./server/controllers/user');
 const login = require('./server/controllers/login.controller');
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 // add & configure middleware
 // app.use(session({
 //     genid: (req) => {
