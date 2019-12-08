@@ -397,6 +397,16 @@ class Payment extends Component {
             });
 
             if (res && res.data && res.data.success) {
+
+                let msg = 'Added Successfully!';
+    
+                if(res && res.data.message)
+                    msg = res.data.message;
+                    
+                this.setState({
+                    popUpOpen: true,
+                    popUpMessage: msg
+                });
                 
             };
         })
@@ -404,6 +414,16 @@ class Payment extends Component {
 
             this.setState({
                 startLoading: false
+            });
+
+            let msg = 'Please try again';
+
+            if(err && err.message)
+                msg = err.message;
+                
+            this.setState({
+                popUpOpen: true,
+                popUpMessage: msg
             });
             
             console.error('err', err);

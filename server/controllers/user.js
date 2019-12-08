@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../schemas/user.schema');
+const Card = require('../schemas/card.schema');
 
 // Home page route.
 router.get('/', function (req, res) {
@@ -118,7 +119,7 @@ router.post('/add-card', function(req, res) {
     sample.cardCvv = req.body.cardCvv;
     sample.cardExpiry = req.body.cardExpiry;
 
-    Card.save(function (err, result) {
+    sample.save(function (err, result) {
 
         if (err) return res.send(err);
 
