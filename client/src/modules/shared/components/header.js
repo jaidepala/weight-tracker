@@ -24,7 +24,6 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 // Content
     import GridList from '@material-ui/core/GridList';
     import GridListTile from '@material-ui/core/GridListTile';
-    import tileData from './tileData';
 
 // Icons
 	import HomeIcon from '@material-ui/icons/Home';
@@ -284,16 +283,6 @@ export default function Header( props ) {
 				</p>
 			</MenuItem>
       	</Menu>
-    );
-
-    const content = (
-        <GridList cellHeight={160} className={classes.gridList} cols={3}>
-            {tileData.map(tile => (
-                <GridListTile key={tile.title} cols={tile.cols || 1}>
-                    <img src={tile.img} alt={tile.title} />
-                </GridListTile>
-            ))}
-        </GridList>
     );
 
     return (

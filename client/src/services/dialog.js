@@ -14,9 +14,6 @@ REF: https://material-ui.com/components/dialogs/
 export default function AlertDialog( props ) {
     const [open, setOpen] = React.useState(false);
 
-    console.log('props', props);
-    
-
     function handleClickOpen() {
         setOpen(true);
     }

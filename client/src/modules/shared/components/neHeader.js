@@ -179,8 +179,6 @@ class NeHeader extends Component {
 
         Utils.removeLoggedInUser();
 
-        console.log(this.props)
-
         // this.props.setLoggedIn(false);
 
         // this.props.history.push('/login');
