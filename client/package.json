@@ -15,7 +15,7 @@
 		"classnames": "^2.2.6",
 		"date-fns": "^2.0.1",
 		"material-ui": "^0.20.2",
-		"moment": "^2.24.0",
+		"moment": "^2.29.2",
 		"react": "^16.9.0",
 		"react-dom": "^16.9.0",
 		"react-facebook-login": "^4.1.1",
